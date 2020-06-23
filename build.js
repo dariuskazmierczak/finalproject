@@ -14,20 +14,18 @@ const conf = {
         minimize: true
     } : {},
     module: {
-        rules: [
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['@babel/preset-react', '@babel/preset-env']
-                }
+        rules: [{
+            test: /\.js$/,
+            loader: 'babel-loader',
+            query: {
+                presets: ['@babel/preset-react', '@babel/preset-env']
             }
-        ]
+        }]
     }
 };
 
 if (require.main == module) {
-    webpack(conf, function(err, info) {
+    webpack(conf, function (err, info) {
         if (err) {
             console.log(err);
         }
