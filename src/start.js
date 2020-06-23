@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 //import HelloWorld from "./HelloWorld";
 import Welcome from './welcome';
 
+import Registration from './registration';
+
 let elem;
 const userIsLoggedIn = location.pathname != '/welcome'; //truthy or falsy
 

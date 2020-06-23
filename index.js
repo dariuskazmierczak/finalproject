@@ -2,8 +2,17 @@ const express = require('express');
 const app = express();
 const compression = require('compression');
 const cookieSession = require('cookie-session');
+const csurf = require('csurf');
+const db = require('./db');
+const {
+    hash,
+    compare
+} = require('./bc');
+
 
 app.use(compression());
+
+
 
 app.use(express.json());
 
@@ -13,6 +22,13 @@ app.use(cookieSession({
     secret: "it might be anything",
     maxAge: 1000 * 60 * 60 * 24 * 14
 }));
+
+app.use(csurf());
+
+app.use(function (req, res, next) {
+    res.cookie('mytoken', req.csrfToken());
+    next();
+});
 
 if (process.env.NODE_ENV != 'production') {
     app.use(
