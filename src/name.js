@@ -9,12 +9,12 @@ export default class Name extends React.Component {
     }
 };
 
-render() {
+//render() {
     //console.log("this.props:", this.props);
-    return (<p> Welcome!{
-        this.props.first
-    } </p>);
-}
+    //return (<p> Welcome!{
+   //     this.props.first
+  //  } </p>)
+//}
 
 //export default function Name(props) {
 // console.log("props", props);

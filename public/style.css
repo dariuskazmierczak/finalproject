@@ -5,13 +5,60 @@
   }
   
   body {
-    display: flex;
-    flex-direction: column;
     font-family: 'MuseoModerno', cursive;
     background: #222831;
     /*background-color: #1b262c;*/
   color: white;
     text-align: center;
   }
+
+  .register-form {
+    display: grid;
+    position : relative;
+    width  : 740px;
+    height : 498px;
+    margin : 10vh auto;
+    padding: 1em;
+    grid-gap : 50px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1em 1em 1em 1em 1em 1em;
+    text-align: center;
+    
+    
+  }
+
+  input {
+    display: flex;
+    border: none;
+    padding: 0 10px;
+    margin: 0;
+    width : 40%;
+    height: 2rem; 
+    justify-self: center;
+  }
+
+  button {
+    border: 2px solid white;
+    border-radius: 2px;
+    background: white;
+    cursor: pointer;
+    width : 15%;
+    height: 1.2rem; 
+    justify-self: center;
+  }
+  
+  
+  button:hover,
+  button:focus {
+    outline     : none;
+  }
+
+ a {
+      color: white;
+      
+  }
+
+  
+
 
   /*PartyClue --- Chat and find the Clue to solve your problem.

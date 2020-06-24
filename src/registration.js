@@ -15,6 +15,14 @@ class Registration extends Component {
             password: " ",
 
         }
+        //this.handleChange = this.handleChange.bind(this);
+        //this.postRegistration = this.postRegistration.bind(this);
+        //code not to cookie; we gonna store i db. we have to create a new table. Email adress and timestamp.
+
+        //email should be store in state in some component
+
+        ///conditional rendering
+        //step is from state default value (axios post req)
     }
 
     handleChange(e) {
@@ -47,12 +55,19 @@ class Registration extends Component {
         return (<>
             <h1> Please register here </h1>  {
                 this.state.error && <div> </div>}
-            <input name="first" placeholder="first" onChange={e => this.handleChange(e)} />
-            <input name="last" placeholder="last" onChange={e => this.handleChange(e)} />
-            <input name="email" placeholder="email" onChange={e => this.handleChange(e)} />
-            <input name="password" placeholder="password" type="password" onChange={e => this.handleChange(e)} />
-            <button onClick={() => this.submit()}>Register</button>
-            <Link to="/login">Login</Link>
+            <div className="register-form">
+                <input name="first" placeholder="first" onChange={e => this.handleChange(e)} />
+
+                <input name="last" placeholder="last" onChange={e => this.handleChange(e)} />
+
+                <input name="email" placeholder="email" onChange={e => this.handleChange(e)} />
+
+                <input name="password" placeholder="password" type="password" onChange={e => this.handleChange(e)} />
+
+                <button onClick={() => this.submit()}>Register</button>
+
+                <Link className="link-log" to="/login">Login</Link>
+            </div>
         </>
         );
     }
