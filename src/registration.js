@@ -8,39 +8,24 @@ import { Link } from "react-router-dom";
 class Registration extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            first: " ",
-            last: " ",
-            email: " ",
-            password: " ",
-
-        }
-        //this.handleChange = this.handleChange.bind(this);
-        //this.postRegistration = this.postRegistration.bind(this);
-        //code not to cookie; we gonna store i db. we have to create a new table. Email adress and timestamp.
-
-        //email should be store in state in some component
-
-        ///conditional rendering
-        //step is from state default value (axios post req)
+        this.state = {}
     }
 
+
     handleChange(e) {
-        console.log('e.target.value:', e.target.value);
-        console.log('e.target.name:', e.target.name);
         this.setState({
             [e.target.name]: e.target.value
         }, () => console.log("this.state:", this.state));
     }
 
     submit() {
-        console.log('submit!!!');
+        console.log('submit');
         e.preventDefault();
         axios.post('/register', this.state)
             .then(({
                 data
             }) => {
-                console.log('data from sever:', data);
+                console.log('data:', data);
                 if (data.success) {
                     location.replace('/');
                 } else {
@@ -49,13 +34,14 @@ class Registration extends Component {
                     });
                 }
             }).catch((err) => console.log(err));
-    }
+    };
 
     render() {
-        return (<>
-            <h1> Please register here </h1>  {
-                this.state.error && <div> </div>}
+        return (
             <div className="register-form">
+                <h1> Please register here </h1>
+                {this.state.error && <div>An error occured!</div>}
+
                 <input name="first" placeholder="first" onChange={e => this.handleChange(e)} />
 
                 <input name="last" placeholder="last" onChange={e => this.handleChange(e)} />
@@ -68,11 +54,10 @@ class Registration extends Component {
 
                 <Link className="link-log" to="/login">Login</Link>
             </div>
-        </>
+            //<> </>
         );
     }
 }
 
-export default Registration;
 
-//if wrap in the form preventDefault
+export default Registration;
