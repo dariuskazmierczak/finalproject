@@ -1,23 +1,23 @@
 import React from 'react';
 import { HashRouter, Route } from 'react-router-dom';
+
+
 import Registration from './registration';
 import Login from './login';
-
+import Reset from './reset';
 
 export default function Welcome() {
     return (
-        <div>
-            <h1> Welcome </h1>
+        <div className="welcome-container">
+            <h1>Welcome to PlaYClue</h1>
             <HashRouter>
-                <div>
-                    <Route exact path="/" component={Registration} />
-                    <Route exact path="/login" component={Login} />
+                <div className="welcome-routes">
+                    <Route exact path='/' component={Registration} />
+                    <Route exact path='/login' component={Login} />
+                    <Route exact path='/reset' component={Reset} />
+
                 </div>
             </HashRouter>
-
-
-
-            <h3>If you have a account you can <a href="">login</a></h3>
         </div>
-    );
+    )
 }

@@ -12,15 +12,11 @@ export default function ProfilePic(props) {
     }
 
     return (
-        <div className="profpic-container">
-            <div className="imgContainer" onClick={() => props.toggleModal} >
-                {/* <p>Upload a picture</p> */}
+        <div>
+            {<div className={`profpic-container-${props.size}`} onClick={() => props.toggleModal()}>
                 <img src={props.imageUrl} alt={`${props.first} ${props.last}`} />
 
-            </div>
-            <div className="profpic-name">
-                <p>{props.first} {props.last}</p>
-            </div>
+            </div>}
         </div>
     )
 }
