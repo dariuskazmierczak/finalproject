@@ -5,37 +5,12 @@ import { Link } from 'react-router-dom';
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.login = this.login.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.signup = this.signup.bind(this);
         this.state = {
-            email: "",
-            password: ""
 
         };
     }
     handleChange(e) {
-        this.setState({ [e.target.name]: e.target.value });
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        <Redirect to="/registration" />;
-    }
-
-    login(e) {
-        e.preventDefault();
-        fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch((error) => {
-            alert(error);
-        });
-    }
-
-    signup(e) {
-        e.preventDefault();
-        fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch((error) => {
-            alert(error);
-        });
+        this.setState({ [e.target.name]: e.target.value }, () => console.log('this.state in loggedIn: ', this.state));
     }
 
     submit() {
@@ -45,7 +20,7 @@ class Login extends Component {
             .then(({
                 data
             }) => {
-                console.log('data from sever:', data);
+                console.log('data from sever:', data.success);
                 if (data.success) {
                     location.replace('/');
                 } else {
@@ -59,40 +34,20 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="login-form">
-                <h1>Login</h1>
-                <form onSubmit={this.submitForm}>
+            <div>
+                <h1>
+                    Login please
+                </h1>
 
-                    <input name="email" placeholder="email" onChange={e => this.handleChange(e)}
-                    />
+                {this.state.error && <div>Oops something went wrong! Are you registered?</div>}
+                <input name="email" placeholder="email" type="email" onChange={e => this.handleChange(e)} />
+                <input name="password" placeholder="password" type="password" onChange={e => this.handleChange(e)} />
+                <button onClick={() => this.submit()}>Login</button>
+                <Link to="/reset">Reset your password</Link>
 
-                    <div>
-                        <label for="exampleInputPassword1">Password: </label>
-                        <br />
-                        {/* Margin issue when showing and hiding password */}
-                        <PasswordMask
-                            value={this.state.password}
-                            onChange={this.handleChange}
-                            type="password"
-                            name="password"
-                            id="exampleInputPassword1"
-                            placeholder="**********"
-                        />
-                    </div>
-                    <br />
-                    <button
-                        type="submit"
-                        className="button"
-                        onClick={this.login}
-                        onSubmit={this.handleSubmit}>Login</button>
-
-                    <Link className="button-inv" to="/register">Login</Link>
-                </form>
             </div>
-
         );
     }
-
 
 }
 export default Login;

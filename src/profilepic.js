@@ -8,13 +8,20 @@ export default function ProfilePic(props) {
     if (props.imageUrl) {
         imageUrl = props.imageUrl
     } else {
-        imageUrl = '/default_profile_pic.jpg'
+        imageUrl = './default_profile_pic.jpg'
     }
 
     return (
         <div>
-            {<div className={`profpic-container-${props.size}`} onClick={() => props.toggleModal()}>
-                <img src={props.imageUrl} alt={`${props.first} ${props.last}`} />
+            {<div className={`profpic-container-${props.size}`}>
+
+                <img src={props.imageUrl} alt={`${props.first} ${props.last}`}
+                    onClick={() => props.toggleModal()} />
+
+                {
+                    props.size == "s" &&
+                    <button className='logout' onClick={() => props.logOut()}>LOGOUT</button>
+                }
 
             </div>}
         </div>

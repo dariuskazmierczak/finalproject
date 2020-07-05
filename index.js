@@ -2,11 +2,13 @@ const ses = require('./ses');
 const express = require('express');
 const app = express();
 const compression = require('compression');
+const server = require('http').Server(app);
+//const io = require('socket.io')(server, { origins: 'localhost:8080' });
 const db = require('./db');
 const cookieSession = require('cookie-session');
 const csurf = require('csurf');
 const cryptoRandomString = require('crypto-random-string');
-const ses = require('./ses');
+
 
 
 
@@ -32,29 +34,22 @@ const uploader = multer({
     }
 });
 
-
 const { hash, compare } = require('./bc');
 
 app.use(compression());
 
-
-
 app.use(cookieSession({
-    secret: "I'm always angry",
+    secret: "Secret_cookies",
     maxAge: 1000 * 60 * 60 * 24 * 14
 }));
 
 app.use(csurf());
-
-
 
 app.use(function (req, res, next) {
     res.cookie('mytoken', req.csrfToken())
     console.log('req.csrfToken', req.csrfToken())
     next();
 })
-
-
 
 app.use(express.json());
 
@@ -72,7 +67,6 @@ if (process.env.NODE_ENV != 'production') {
 } else {
     app.use('/bundle.js', (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
-
 
 app.post('/register', (req, res) => {
     console.log('req.body: ', req.body);
@@ -231,9 +225,25 @@ app.post('/bioediting', (req, res) => {
 
 })
 
-app.get('/isBio', (req, res) => {
-    ('axios getting bio')
+app.post('/otherUser', (req, res) => {
+    console.log('/otherUser req.id_url:::::::::::::', req.body);
+    //let userId = req.session.userId;
+    //let text = req.body.biotext;
+    //console.log('in bioediting::', text, userId)
+    db.getUserInfo(req.body.id).then(results => {
+        if (req.session.userId == results.rows[0].id) {
+            console.log("!!!!!!!!!!!!!if happend")
+            results.rows[0].currentUser = true;
+        }
+        console.log('/otherUser results from getUserInfo: ', results.rows[0]);
+        res.json(results.rows[0]);
+    }).catch(err => console.log('error getUserInfo', err));
 })
+
+
+//app.get('/isBio', (req, res) => {
+//    ('axios getting bio')
+//})
 
 app.get('/welcome', (req, res) => {
     if (req.session.userId) {
@@ -243,6 +253,13 @@ app.get('/welcome', (req, res) => {
     }
 })
 
+
+app.get('/logout', (req, res) => {
+    req.session = null;
+    res.json(true);
+});
+
+
 app.get('*', function (req, res) {
     if (!req.session.userId) {
         res.redirect('/welcome');
@@ -251,6 +268,15 @@ app.get('*', function (req, res) {
     }
 });
 
-app.listen(8080, function () {
+//io.on('connection', socket => {
+
+//console.log(`Socket with id ${socket.id} just CONNECTED`);
+
+// socket.on('disconnect', () => {
+//      console.log(`Socket with id ${socket.id} just DISCONNECTED`);
+//   });
+//});
+
+server.listen(8080, function () {
     console.log("I'm listening.");
 });
