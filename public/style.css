@@ -13,7 +13,36 @@ color: white;
   text-align: center;
 }
 
-.register-form {
+main {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+ 
+ 
+}
+
+/*------- Welcome/Registration/login ---------*/
+
+/*--Welcome--*/
+
+/*.welcome-container h1{
+  font-size: 20px;
+  top: 5%;
+}
+
+.welcome-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}*/
+
+
+
+.registration-form h1 {
+  font-size: 20px;
+}
+
+form {
   display: grid;
   position : relative;
   width  : 740px;
@@ -22,8 +51,17 @@ color: white;
   padding: 1em;
   grid-gap : 50px;
   grid-template-columns: 1fr;
-  grid-template-rows: 1em 1em 1em 1em 1em 1em;
   text-align: center;
+}
+
+.registration-form {
+  grid-template-rows: 1em 1em 1em 1em 1em 1em;
+  
+}
+
+.login-form {
+  grid-template-rows: 1em 1em 1em 1em;
+  
 }
 
 input {
@@ -38,8 +76,8 @@ input {
 }
 
 button {
-  border: 2px solid white;
-  border-radius: 2px;
+  border: 1px solid white;
+  border-radius: 3px;
   background: white;
   cursor: pointer;
   width : 15%;
@@ -56,63 +94,58 @@ button:focus {
 a {
     color: white;
     
-}
-.profpic-container {
-  display: flex;
-  height: 350px;
-  width: 350px;
-  right: 0;
-  flex-direction: column;
-  float:right;
+} 
 
-}
+/*------- Logo -----------*/
 
-.imgContainer {
- 
-  width: 100px;
-  height: 100px;
-  position: relative;
-  background-repeat: no-repeat;
-  background-size: cover;
-  float:right;
-  top: 20px;
-  text-align: right;
-  left: 50%;
+.logo {
+  grid-column-start: 1/ 2;
+  grid-row: 1/2;
+}
+.logo img {
+  display: grid;
   
-}
-
-.imgContainer img {
-
+  position: absolute;
+  width: 200px;
+  height: 150px;
   background-repeat: no-repeat;
   background-size: cover;
-  /*max-height: 200px;
-  max-width: 200px;*/
-  float:right;
-  max-width: 100%;
-  max-height: 100%;
-  align-self: right;
+  /*left: float;*/
+  margin: 15px 0 0 30px;
 }
 
-.profpic-name {
-  display: flex;
-  position: relative;
-  justify-self: self-end;
-  margin-top: 10%;
-  font-size: 20px;
-  left: 50%;
+/*-------- Profile S---------*/
+
+.profpic-container-s {
+  
+  grid-column:  1 / 3;
+ 
+ 
+  background-size: cover;
+  height: 100px;
+  width: 100px;
+  float: right;
+  margin: 15px 15px 0 0;
 }
+  
+.profpic-container-s img {
+  height: 100%;
+  width: 100%;
 
+  }
+  /*flex-direction: column;
+  float:right;*/
 
+/*---- Modal ------*/
 
 .modal{
   position: absolute;
   height: auto;
   width: 600px;
-  top: 50%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: gray;
- 
 }
 
 .modal p {
@@ -131,17 +164,121 @@ a {
   top: 5px;
 }
 
-.logo img {
-  display: flex;
-  position: absolute;
-  width: 200px;
-  height: 150px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin: 15px 0 0 30px;
+/*----- Profile XL -------*/
+
+.profpic-container {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  grid-template-rows: 50px 200px;
+ /*display: flex;
+  position: relative;*/
+    width: 100%;
+    margin: 15% 0 0 0;
+    float: left;
 }
 
+.profpic-container .profpic-container-xl {
+ grid-column: 1/2;
+ grid-row: 1/4; 
+
+/*position: absolute;
+ width: auto;
+ height: auto;
+ left: 5%;*/
+}
+
+.profpic-container-xl img {
+width: 250px;
+height: 250px;
+}
+
+  .profpic-container h1 {
+    position: relative;
+    grid-column: 2/3;
+    grid-row: 1/2;
+    justify-self: start;
+  }
+
+  /*---- bio ----*/
+
+.profpic-container .bio-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 50px;
+  position: relative;
+  grid-column: 2/3;
+  grid-row: 2/3; 
+}
+
+  .bioEdit{
+ display: grid;
+    position: relative;
+    height: 50%;
+    width: 700px;
+    text-align: left;
+    
+}
+
+.bioEdit button {
+  grid-column: 1/2;
+  grid-row: 2/3;
+  width: 100px;
+  top: 10px;
+  justify-self: left;
+  bottom: 5px;
   
+}
 
+.bioEdit p {
+  height: auto;
+  width: 600px;
+  bottom: 5px;
+}
 
-  /*PartyClue --- Chat and find the Clue to solve your problem.
+.bioEditor .textarea{
+  display: relative;
+}
+
+.logout {
+  width: 100px;
+}
+/*----- Other Profile ------*/
+
+.other_prof_container {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  grid-template-rows: 50px 200px;
+ /*display: flex;
+  position: relative;*/
+    width: 100%;
+    margin: 15% 0 0 0;
+    float: left;
+}
+
+.other_prof_container img{
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
+  justify-self: center;
+}
+
+.other_prof_container h1{
+  justify-self: center;
+}
+
+.other_prof_container h2{
+  justify-self: start;
+  align-self: center;
+}
+
+.other_prof_container p{
+  justify-self: start;
+}
+
+/*--------CHat -------*/
+
+/*.chat-message-container{
+  height: 300px;
+  width: 80%;
+  overflow-y: scroll;
+}*/
