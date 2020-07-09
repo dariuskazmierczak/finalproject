@@ -11,8 +11,9 @@ export default function Welcome() {
         <div className="welcome-container">
             <h1>Welcome to PlaYClue</h1>
             <HashRouter>
-                <div className="welcome-routes">
+                <div className="welcome-comp">
                     <Route exact path='/' component={Registration} />
+                    <Route exact path='/register' component={Registration} />
                     <Route exact path='/login' component={Login} />
                     <Route exact path='/reset' component={Reset} />
 

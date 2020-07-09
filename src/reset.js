@@ -58,21 +58,23 @@ class Reset extends Component {
         const display = this.state.display;
         if (display === 1) {
             return (
-                <div >
+                <form >
                     <h1>Please write your email adress</h1>
                     <input name="email" placeholder="email" type="email" onChange={e => this.handleChange(e)} />
                     <button onClick={() => this.submit()}>Send</button>
-                </div>
+                    <Link to="/login">Login</Link>
+                </form>
             )
         } else if (display === 2) {
             return (
-                <div>
+                <form>
                     <p>Please enter your code</p>
                     <input name="code" key="code" placeholder="code" onChange={e => this.handleChange(e)} />
                     <p>Please enter your new password</p>
                     <input name="password" placeholder="password" type="password" onChange={e => this.handleChange(e)} />
                     <button onClick={() => this.submitVer()}>Send</button>
-                </div>
+                    <Link to="/login">Login</Link>
+                </form>
             )
         } else if (display === 3) {
             return (
@@ -86,8 +88,6 @@ class Reset extends Component {
 
     }
 
-
-
     render() {
         return (
             <div>
@@ -99,17 +99,3 @@ class Reset extends Component {
 }
 
 export default Reset;
-
-
-
-// getCurrentDisplay(){
-//     const step= this.state.step;
-//     if (step===1){
-//         return (
-//             div---show first display
-//         )
-//     } else if(step===2) {
-
-//     }
-
-// }

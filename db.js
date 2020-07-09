@@ -51,6 +51,13 @@ module.exports.updatePassword = (email, password) => {
     );
 }
 
+module.exports.getUsersNumber = () => {
+    return db.query(`
+        SELECT COUNT(*) AS num
+        FROM users
+    `)
+}
+
 module.exports.getUserInfo = (userId) => {
     return db.query(`
         SELECT *
@@ -77,4 +84,109 @@ module.exports.setBio = (id, bio) => {
     RETURNING *`,
         [id, bio]
     )
+}
+
+//---------------------------------------------------------------
+//-----------------FIND PEOPLE
+//---------------------------------------------------------------
+module.exports.getMostRecentUsers = () => {
+    return db.query(`
+      SELECT first, last, imageurl, bio, id FROM users ORDER BY id DESC LIMIT 3;
+`);
+};
+
+module.exports.userQuery = (letter) => {
+    return db.query(
+        `SELECT first, last, imageurl, bio, id FROM users WHERE first ILIKE $1;`,
+        [letter + "%"]
+    );
+};
+
+//---------------------------------------------------------------
+//-----------------FRIEND BUTTON
+//---------------------------------------------------------------
+module.exports.initialFriendshipStatus = (userId, id) => {
+    const q = `SELECT * FROM friendships
+    WHERE (sender_id = $1 AND receiver_id = $2) 
+    OR (receiver_id = $1 AND sender_id = $2);`;
+
+    const params = [userId, id];
+
+    return db.query(q, params);
+};
+module.exports.makeFriendRequest = (userId, id) => {
+    const q = `INSERT INTO friendships (sender_id, receiver_id)
+    VALUES ($1, $2);`;
+
+    const params = [userId, id];
+
+    return db.query(q, params);
+};
+
+module.exports.cancelFriendship = (userId, id) => {
+    const q = `DELETE FROM friendships
+    WHERE sender_id = $1 AND receiver_id = $2
+    OR sender_id = $2 AND receiver_id = $1;`;
+
+    const params = [userId, id];
+
+    return db.query(q, params);
+};
+
+module.exports.acceptFriend = (userId, id) => {
+    const q = `UPDATE friendships
+    SET accepted = true
+    WHERE receiver_id = $1 AND sender_id = $2;`;
+    const params = [userId, id];
+
+    return db.query(q, params);
+};
+
+//---------------------------------------------------------------
+//-----------------SHOW RELATIONS 
+//---------------------------------------------------------------
+module.exports.getFriendsAndWannabes = (id) => {
+    const q = `SELECT users.id, first, last, imageurl, accepted
+    FROM friendships
+    JOIN users
+    ON (accepted = false AND receiver_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND receiver_id = $1 AND sender_id = users.id)
+    OR (accepted = true AND receiver_id = users.id AND sender_id = $1);`;
+    const params = [id];
+
+    return db.query(q, params);
+};
+
+//---------------------------------------------------------------
+//-----------------CHAT
+//---------------------------------------------------------------
+module.exports.getLastMessages = () => {
+    return db.query(`
+    SELECT users.id, users.first, users.last, users.imageurl, chat.text_message, chat.created_at
+    FROM chat
+    JOIN users
+    ON users.id=chat.sender_id
+    ORDER BY created_at ASC
+    LIMIT 10;
+    `)
+}
+
+module.exports.addNewMessage = (id, mes) => {
+    return db.query(`
+    INSERT INTO chat (sender_id, text_message)
+    VALUES ($1, $2)
+    RETURNING *
+    `, [id, mes])
+}
+
+module.exports.getNewMessage = (id) => {
+    return db.query(`
+    SELECT users.id, users.first, users.last, users.imageurl, chat.text_message, chat.created_at
+    FROM chat
+    JOIN users
+    ON users.id= chat.sender_id
+    WHERE chat.sender_id = $1
+    ORDER BY created_at DESC
+    LIMIT 1;
+    `, [id])
 }

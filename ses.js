@@ -3,9 +3,9 @@ const fs = require('fs');
 
 let secrets;
 if (process.env.NODE_ENV == 'production') {
-    secrets = process.env; // in prod the secrets are environment variables
+    secrets = process.env;
 } else {
-    secrets = require('./secrets'); // in dev they are in secrets.json which is listed in .gitignore
+    secrets = require('./secrets');
 }
 
 const ses = new aws.SES({
@@ -14,12 +14,9 @@ const ses = new aws.SES({
     region: 'eu-west-1'
 });
 
-//function allow run method with email sth
-
 exports.sendEmail = function (recipient, message, subject) {
-    //it is asuchronous below that is why promise at the end
     return ses.sendEmail({
-        Source: 'Funky Chicken <funky.chicken@spiced.academy>',
+        Source: 'blbla',
         Destination: {
             ToAddresses: [recipient]
         },
@@ -33,9 +30,9 @@ exports.sendEmail = function (recipient, message, subject) {
                 Data: subject
             }
         }
-    }).promise();
-
+    }).promise()
 }
+
 
 const s3 = new aws.S3({
     accessKeyId: secrets.AWS_KEY,
@@ -43,7 +40,7 @@ const s3 = new aws.S3({
 });
 
 
-exports.upload = (req, res, next) => {
+exports.upload = function (req, res, next) {
     if (!req.file) {
         return res.sendStatus(500);
     }
@@ -51,7 +48,7 @@ exports.upload = (req, res, next) => {
     const { filename, mimetype, size, path } = req.file;
 
     const promise = s3.putObject({
-        Bucket: 'spicedling',
+        Bucket: 'imageboardbuck',
         ACL: 'public-read',
         Key: filename,
         Body: fs.createReadStream(path),
@@ -63,16 +60,13 @@ exports.upload = (req, res, next) => {
         () => {
             console.log('amazon upload is complete')
             next();
-            // it worked!!!
-            //this is to delete the image you just uploaded to aws
-            //fs.unlink(path, () => { });
+
         }
     ).catch(
         err => {
-            // uh oh
+
             console.log(err);
         }
     );
-
-
 }
+

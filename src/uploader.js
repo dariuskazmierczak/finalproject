@@ -6,12 +6,9 @@ import axios from './axios';
 class Uploader extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        }
+        this.state = {}
 
         this.methodInUploader = this.methodInUploader.bind(this);
-
-        console.log('props in Uploader', props)
     }
 
     componentDidMount() {
@@ -41,15 +38,20 @@ class Uploader extends Component {
         var formData = new FormData();
         formData.append('file', this.state.file);
         formData.append('name', this.state.name);
-        console.log('this.state', this.state)
+        console.log('uploadImage this.state', this.state);
+        console.log('upload image formdata', formData)
 
         axios.post('/upload', formData).then(({ data }) => {
-            this.props.methodGetUrl(data.image);
+            this.props.methodGetUrl(data.imageurl);
         }).catch(function (err) {
             console.log('err in POST', err)
         })
-        this.props.methodInApp(this.state.imageUrl);
-        this.closeModalInUploader();
+
+        //------------------
+        //sending props to app
+        //this.props.methodInApp(this.state.imageUrl);
+        //this.props.toggleModal();
+        //this.closeModalInUploader();
     }
 
     render() {
@@ -62,7 +64,7 @@ class Uploader extends Component {
                     </h2>
 
                 </div>
-                <div>
+                <div className="modal-img-container">
                     <input type="file" id="image" name="image" accept="image/*" onChange={this.methodInUploader}
                     />
                     <img src={this.state.imageUrl} />

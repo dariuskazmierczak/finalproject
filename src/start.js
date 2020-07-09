@@ -1,28 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-//import HelloWorld from "./HelloWorld";
-import Welcome from './welcome';
-import App from './app';
+import React from "react";
+import ReactDOM from "react-dom";
 
-//import Registration from './registration';
+import Welcome from "./welcome";
+import App from "./app";
 
-let elem;
-const userIsLoggedIn = location.pathname != '/welcome'; //truthy or falsy
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import reduxPromise from "redux-promise";
+import { composeWithDevTools } from "redux-devtools-extension";
+import reducer from "./reducer";
+import { init } from "./socket";
 
-if (!userIsLoggedIn) {
-    elem = < Welcome />;
-} else {
-    //elem = <h1> I will be the main social network app! </h1>;
-    elem = < App />;
-}
-
-
-ReactDOM.render(
-    elem, document.querySelector('main')
+const store = createStore(
+    reducer,
+    composeWithDevTools(applyMiddleware(reduxPromise))
 );
 
+let elem;
+const userIsLoggedIn = location.pathname != "/welcome";
 
-//React render can only be once called per project!!!
-//ReactDOM.render(< HelloWorld />,
-  //  document.querySelector('main')
-//);
+if (!userIsLoggedIn) {
+    elem = <Welcome />;
+} else {
+    //establish socket connection with the server 
+    init(store);
+    elem = (
+        <Provider store={store}>
+            <App />
+        </Provider>
+    );
+}
+
+ReactDOM.render(elem, document.querySelector("main"));
