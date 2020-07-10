@@ -4,7 +4,7 @@ import Profile from './profile';
 import Uploader from './uploader';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import OtherProfile from './otherprofile';
-import FindPeople from './findpeple';
+import FindPeople from './findpeople';
 import Friends from './friends';
 import Logo from './logo';
 import Chat from './chat';

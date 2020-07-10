@@ -29,7 +29,38 @@ export default function Friends() {
     }
 
     return (
+
         <div className="fr-wb-list">
+            <div className="fr-list">
+                {friends.map((user, i) => {
+                    return (
+                        <div className="friends" key={i}>
+                            <h2>These people are currently you friends</h2>
+                            <div className="f-user">
+                                <div className="wrap-info-user">
+                                    <div className="image3">
+                                        <Link to={`/user/${user.id}`}>
+
+                                            <img
+                                                className="of-user-img"
+                                                src={user.imageurl}
+                                                alt={user.first + " " + user.last}
+                                            />
+                                        </Link>
+                                    </div>
+
+                                    <p className="f-user-name">
+                                        {user.first} {user.last}
+                                    </p>
+                                    <button className="end-fr" onClick={() => dispatch(unfriend(user.id))}>
+                                        End Friendship
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
             <div className="wb-list">
                 {wannabees.map((user, i) => {
                     return (
@@ -64,36 +95,7 @@ export default function Friends() {
                     );
                 })}
             </div>
-            <div className="fr-list">
-                {friends.map((user, i) => {
-                    return (
-                        <div className="friends" key={i}>
-                            <h2>These people are currently you friends</h2>
-                            <div className="f-user">
-                                <div className="wrap-info-user">
-                                    <div className="image3">
-                                        <Link to={`/user/${user.id}`}>
 
-                                            <img
-                                                className="of-user-img"
-                                                src={user.imageurl}
-                                                alt={user.first + " " + user.last}
-                                            />
-                                        </Link>
-                                    </div>
-
-                                    <p className="f-user-name">
-                                        {user.first} {user.last}
-                                    </p>
-                                    <button className="end-fr" onClick={() => dispatch(unfriend(user.id))}>
-                                        End Friendship
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
 
         </div>
     );
