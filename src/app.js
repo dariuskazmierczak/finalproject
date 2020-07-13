@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import ProfilePic from './profilepic';
-import Profile from './profile';
+/* import Profile from './profile'; */
 import Uploader from './uploader';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import OtherProfile from './otherprofile';
+/* import OtherProfile from './otherprofile';
 import FindPeople from './findpeople';
-import Friends from './friends';
+import Friends from './friends'; */
+import Content from './content/content';
 import Logo from './logo';
-import Chat from './chat';
+/* import Chat from './chat'; */
 import axios from './axios';
 
 class App extends Component {
@@ -78,9 +79,9 @@ class App extends Component {
                 <div className="app-header">
                     <Logo />
                     <div className="nav">
-                        <Link className="one" to="/users">Find people</Link>
-                        <Link className="two" to="/friends"> Friends</Link>
-                        <Link className="three" to="/chat"> Chat</Link>
+                        <Link className="one" to="/education">Education</Link>
+                        <Link className="two" to="/experience"> Experience</Link>
+                        <Link className="three" to="/skills"> Skills</Link>
                     </div>
                     <div className="prof-pic">
                         <ProfilePic
@@ -94,7 +95,7 @@ class App extends Component {
                     </div>
                 </div>
                 <div className="main-container">
-                    <Route
+                    {/* <Route
                         exact
                         path="/"
                         render={() => (
@@ -108,12 +109,12 @@ class App extends Component {
                                 logOut={this.logOut}
                             />
                         )}
-                    />
+                    /> */}
                     {this.state.uploaderIsVisible && <Uploader
                         methodGetUrl={this.methodGetUrl}
                         toggleModal={this.toggleModal}
                     />}
-                    <Route
+                    {/*  <Route
                         path="/user/:id"
                         render={props => (
                             <OtherProfile
@@ -128,10 +129,10 @@ class App extends Component {
                         render={props => (
                             <FindPeople />
                         )}
-                    />
-
-                    <Route path="/friends" component={Friends} />
-                    <Route path="/chat" component={Chat} />
+                    /> */}
+                    <Route path="/content" component={Content} />
+                    {/* <Route path="/friends" component={Friends} />
+                    <Route path="/chat" component={Chat} /> */}
 
                 </div>
 
