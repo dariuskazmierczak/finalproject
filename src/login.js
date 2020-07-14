@@ -21,6 +21,7 @@ class Login extends Component {
         //get this.state info and send it to server with axios
         axios.post('/login', this.state).then(({ data }) => {
             console.log('data.success: ', data.success);
+
             if (data.success) {
                 //log user into app
                 //location.replace('/logo')
@@ -42,7 +43,7 @@ class Login extends Component {
         return (
             <div>
                 <h1>
-                    Login please
+                    /
                 </h1>
                 <form className="login-form">
                     {this.state.error && <div>Oops something went wrong! Are you registered?</div>}

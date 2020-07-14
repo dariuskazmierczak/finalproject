@@ -37,9 +37,13 @@ class Languages extends Component {
      } */
 
     render() {
+
         return (
-            <div className="lang-container">
+            <div className="wrapper">
                 <h1>Languages</h1>
+                <div className="description">
+                    <h3>Please add Your Contact Information and Personal Details</h3>
+                </div>
                 <form className="lang-form">
                     {/* {this.state.error && <div>Oops something went wrong! Are you registered?</div>} */}
                     <input name="lang-input" placeholder="Language" type="text" onChange={e => this.handleChange(e)} />
@@ -48,6 +52,10 @@ class Languages extends Component {
                     {/*  <Link to="/reset">Reset your password</Link>
                     <Link to="/register">Do You have account? Register now for free...</Link> */}
                 </form>
+                <div className="links">
+                    <Link to="/personal">Prev</Link>
+                    <Link to="/experience">Next</Link>
+                </div>
             </div>
 
         )

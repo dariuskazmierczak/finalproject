@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-    render
-} from 'react-dom';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
 import Personal from './personal';
 import Education from './education';
 import Experience from './experience';
@@ -16,7 +14,7 @@ export default function Content() {
     return (
         <div className="sections-container">
             <Logo />
-            <HashRouter>
+            <BrowserRouter>
                 <div className="content-comp">
                     <Route exact path='/' component={Content} />
                     <Route exact path='/personal' component={Personal} />
@@ -26,7 +24,7 @@ export default function Content() {
                     <Route exact path='/languages' component={Languages} />
 
                 </div>
-            </HashRouter>
+            </BrowserRouter>
             <div className="preview">
                 {
                     (this.state.id > 0) &&

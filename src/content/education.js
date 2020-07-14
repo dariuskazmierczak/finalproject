@@ -38,24 +38,32 @@ class Education extends Component {
 
     render() {
         return (
-            <form className="education-form">
+            <div className="wrapper">
                 <h1>Education</h1>
-                {/*  {this.state.error && <div>An Error occured!</div>} */}
-                <label> School Name: </label>
-                <input name="school-name" /* placeholder="first" */ onChange={e => this.handleChange(e)} />
-                <label> School location: </label>
-                <input name="school-location" /* placeholder="last" */ onChange={e => this.handleChange(e)} />
-                <label>Degree: </label>
-                <input name="degree" /* placeholder="email"  */ type="text" onChange={e => this.handleChange(e)} />
-                <label> Start Date: </label>
-                <input name="start-date" /* placeholder="password" */ type="text" onChange={e => this.handleChange(e)} />
-                <label> End Date: </label>
-                <input name="end-date" /* placeholder="password" */ type="text" onChange={e => this.handleChange(e)} />
-                <button onClick={() => this.submit()}>Submit</button>
-
-                <Link to="/personal">Prev</Link>
-                <Link to="/experience">Next</Link>
-            </form>
+                <div className="description">
+                    <h3>Please add Your Contact Information and Personal Details</h3>
+                </div>
+                <form className="education-form">
+                    {/*  {this.state.error && <div>An Error occured!</div>} */}
+                    <label> School Name: </label>
+                    <input name="school-name" /* placeholder="first" */ onChange={e => this.handleChange(e)} />
+                    <label> School location: </label>
+                    <input name="school-location" /* placeholder="last" */ onChange={e => this.handleChange(e)} />
+                    <label>Degree: </label>
+                    <input name="degree" /* placeholder="email"  */ type="text" onChange={e => this.handleChange(e)} />
+                    <div className="date">
+                        <label> Start Date: </label>
+                        <input name="start-date" /* placeholder="password" */ type="text" onChange={e => this.handleChange(e)} />
+                        <label> End Date: </label>
+                        <input name="end-date" /* placeholder="password" */ type="text" onChange={e => this.handleChange(e)} />
+                    </div>
+                    <button onClick={() => this.submit()}>Submit</button>
+                </form>
+                <div className="links">
+                    <Link to="/personal">Prev</Link>
+                    <Link to="/experience">Next</Link>
+                </div>
+            </div>
         )
     }
 }

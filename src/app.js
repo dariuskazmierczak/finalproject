@@ -11,6 +11,12 @@ import Logo from './logo';
 /* import Chat from './chat'; */
 import axios from './axios';
 
+import Personal from './content/personal';
+import Education from './content/education';
+import Experience from './content/experience';
+import Skills from './content/skills';
+import Languages from './content/languages';
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -76,14 +82,16 @@ class App extends Component {
     render() {
         return (
             <BrowserRouter>
-                <div className="app-header">
-                    <Logo />
-                    <div className="nav">
-                        <Link className="one" to="/education">Education</Link>
-                        <Link className="two" to="/experience"> Experience</Link>
-                        <Link className="three" to="/skills"> Skills</Link>
-                    </div>
-                    <div className="prof-pic">
+                <div className="main">
+                    <div className="app-header">
+                        <Logo />
+                        <div className="nav">
+                            <Link className="one" to="/education">Education</Link>
+                            <Link className="two" to="/experience"> Experience</Link>
+                            <Link className="three" to="/skills"> Skills</Link>
+                            <Link className="logout" to="/logut">Logout</Link>
+                        </div>
+                        {/* <div className="prof-pic">
                         <ProfilePic
                             first={this.state.first}
                             last={this.state.last}
@@ -92,47 +100,16 @@ class App extends Component {
                             logOut={this.logOut}
                             size='s'
                         />
+                    </div> */}
                     </div>
-                </div>
-                <div className="main-container">
-                    {/* <Route
-                        exact
-                        path="/"
-                        render={() => (
-                            <Profile
-                                first={this.state.first}
-                                last={this.state.last}
-                                imageUrl={this.state.imageUrl}
-                                bio={this.state.bio}
-                                updateBio={this.updateBio}
-                                toggleModal={this.toggleModal}
-                                logOut={this.logOut}
-                            />
-                        )}
-                    /> */}
-                    {this.state.uploaderIsVisible && <Uploader
-                        methodGetUrl={this.methodGetUrl}
-                        toggleModal={this.toggleModal}
-                    />}
-                    {/*  <Route
-                        path="/user/:id"
-                        render={props => (
-                            <OtherProfile
-                                key={props.match.url}
-                                match={props.match}
-                                history={props.history}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/users"
-                        render={props => (
-                            <FindPeople />
-                        )}
-                    /> */}
-                    <Route path="/content" component={Content} />
-                    {/* <Route path="/friends" component={Friends} />
-                    <Route path="/chat" component={Chat} /> */}
+                    <div className="main-container">
+                        <Route exact path='/personal' component={Personal} />
+                        <Route exact path='/experience' component={Experience} />
+                        <Route exact path='/education' component={Education} />
+                        <Route exact path='/skills' component={Skills} />
+                        <Route exact path='/languages' component={Languages} />
+
+                    </div>
 
                 </div>
 
@@ -144,4 +121,3 @@ class App extends Component {
 
 
 export default App;
-
