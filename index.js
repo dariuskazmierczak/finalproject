@@ -240,119 +240,6 @@ app.post('/upload', uploader.single('file'), ses.upload, (req, res) => {
     }
 });
 
-//-------------- BIO
-app.post('/bioediting', (req, res) => {
-    console.log('/bioediting req.body:', req.body);
-    let userId = req.session.userId;
-    let text = req.body.biotext;
-    //console.log('in bioediting::', text, userId)
-    db.setBio(userId, text).then(results => {
-        console.log('results from addBio: ', results.rows[0]);
-        res.json(results.rows[0]);
-    }).catch(err => console.log('error in bioediting', err));
-});
-
-//-------------- OTHERPROFILE
-app.post('/otherUser', (req, res) => {
-    console.log('/otherUser req.id_url:::::::::::::', req.body);
-
-    var number;
-
-    db.getUsersNumber().then(results => {
-        console.log('/otherUser results from getUsersNumber: ', results.rows[0]);
-        number = results.rows[0].num;
-
-        db.getUserInfo(req.body.id).then(results => {
-            if (req.session.userId == results.rows[0].id) {
-                results.rows[0].currentUser = true;
-            }
-            results.rows[0].num = number;
-            console.log('/otherUser results from getUserInfo: ', results.rows[0]);
-            res.json(results.rows[0]);
-        }).catch(err => console.log('error getUserInfo', err));
-
-    }).catch(err => console.log('error getUsersNUmber', err));
-});
-
-//-----------------FIND PEOPLE
-app.post("/recentUsers", (req, res) => {
-    db.getMostRecentUsers().then((data) => {
-        res.json(data);
-    });
-});
-
-app.post("/userQuery:letter", (req, res) => {
-    db.userQuery(req.params.letter).then((re) => {
-        res.json(re.rows);
-    });
-});
-
-//-----------------FRIEND BUTTON
-app.post("/initial-friendship-status/:id", (req, res) => {
-    console.log("/initial-friendship-status/:id", req.params);
-    db.initialFriendshipStatus(req.session.userId, req.params.id)
-        .then((re) => {
-            if (re.rows[0] && req.session.userId == re.rows[0].receiver_id) {
-                re.rows[0].receiver = true;
-                res.json(re.rows[0]);
-            } else {
-                res.json(re.rows[0]);
-            }
-        })
-        .catch((err) => console.log(err));
-});
-
-app.post("/Make-Friend-Request/:id", (req, res) => {
-    console.log("/Make-Friend-Request/:id", req.params);
-    db.makeFriendRequest(req.session.userId, req.params.id).then(() => {
-        res.json({ request: true, setButtonText: "Cancel Friend Request" });
-    });
-});
-
-app.post("/Cancel-Friend-Request/:id", (req, res) => {
-    console.log("/Cancel-Friend-Request/:id", req.params);
-    db.cancelFriendship(req.session.userId, req.params.id).then(() => {
-        console.log("canceling");
-        res.json({ cancelled: true, setButtonText: "Make Friend Request" });
-    });
-});
-
-app.post("/Accept-Friend-Request/:id", (req, res) => {
-    console.log("/Accept-Friend-Request/:id", req.params);
-    db.acceptFriend(req.session.userId, req.params.id).then((re) => {
-        res.json({ setButtonText: "End Friendship" });
-    });
-});
-
-app.post("/End-Friendship/:id", (req, res) => {
-    console.log("/End-Friendship/:id", req.params);
-    db.cancelFriendship(req.session.userId, req.params.id).then(() => {
-        res.json({ setButtonText: "Make Friend Request" });
-    });
-});
-
-//-----------------FRIENDS WANNABE
-app.post("/receiveWannabes", (req, res) => {
-    db.getFriendsAndWannabes(req.session.userId)
-        .then((re) => {
-            res.json(re.rows);
-        })
-        .catch((err) => console.log(err));
-});
-app.post("/acceptWannabee/:id", (req, res) => {
-    console.log("/acceptWannabee/:id", req.params);
-    db.acceptFriend(req.session.userId, req.params.id)
-        .then(() => {
-            res.json({ success: true });
-        })
-        .catch((err) => console.log(err));
-});
-app.post("/unfriend/:id", (req, res) => {
-    console.log("/unfriend/:id", req.params);
-    db.cancelFriendship(req.session.userId, req.params.id)
-        .then(res.json({ success: true }))
-        .catch((err) => console.log(err));
-});
 
 //---------------------------------------------------------------
 //-----------------WELCOME
@@ -388,54 +275,16 @@ app.get('*', function (req, res) {
 //---------------------------------------------------------------
 //run socket
 //---------------------------------------------------------------
-io.on('connection', function (socket) {
-    //all socket code goes here:::
-    console.log(`socket id ${socket.id} is now connected`);
-
-    if (!socket.request.session.userId) {
-        console.log(`socket with the id ${socket.id} is now disconnected`);
-        return socket.disconnect(true);
-    };
-
-    //define current user id
-    const userId = socket.request.session.userId;
-
-    //get the last 10 chat messages
-    socket.on('chatMessages', async function () {
-        console.log('chatMessages messsage from chat.js component');
-        try {
-            const newMessage = await db.getLastMessages();
-            console.log('results from getLastMessages:', newMessage);
-            io.sockets.emit('chatMessages', newMessage.rows);
-        }
-        catch (err) {
-            console.log('error in chatMessages', err);
-        }
-
-    });
-
-    socket.on('getNewMessage', async function (newMsg) {
-        console.log('newMsg messsage from chat.js component ', newMsg);
-        console.log('user who sent new message: ', userId);
-        const newMessage = await db.addNewMessage(userId, newMsg);
-        console.log('newMessage async: ', newMessage.rows[0]);
-
-        db.getNewMessage(newMessage.rows[0].sender_id).then(results => {
-            console.log('results from getNewMessage: ', results.rows);
-            io.sockets.emit('addChatMsg', results.rows);
-        }).catch(err => {
-            console.log('error inn getNewMessage: ', err);
-        });
-    });
 
 
-    //1. insert msg in chat table (Returning something?)
-    //2.do query to get first, last, img (Join)
-    //
-    //emit the msg so that everyone can see it:
-    //io.socket.emit('addChatMsg', ....)
 
-});
+//1. insert msg in chat table (Returning something?)
+//2.do query to get first, last, img (Join)
+//
+//emit the msg so that everyone can see it:
+//io.socket.emit('addChatMsg', ....)
+
+
 
 //---------------------------------------------------------------
 //run server

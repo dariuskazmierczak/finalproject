@@ -43,29 +43,31 @@ class Personal extends Component {
                 <div className="description">
                     <h3>Please add Your Contact Information and Personal Details</h3>
                 </div>
-                <form className="personal-data-form">
+                <form className="form">
 
                     {/*  {this.state.error && <div>An Error occured!</div>} */}
-                    <label> First Name: </label>
-                    <input name="first" /* placeholder="first" */ onChange={e => this.handleChange(e)} />
-                    <label> Last Name: </label>
-                    <input name="last" /* placeholder="last" */ onChange={e => this.handleChange(e)} />
-                    <label>Email adress: </label>
-                    <input name="email" /* placeholder="email"  */ type="email" onChange={e => this.handleChange(e)} />
-                    <label> Phone Number: </label>
-                    <input name="phone" /* placeholder="password" */ type="text" onChange={e => this.handleChange(e)} />
-                    <label> Location: </label>
-                    <input name="location" /* placeholder="password" */ type="text" onChange={e => this.handleChange(e)} />
-                    <label> Job Category: </label>
-                    <input name="jobcategory" /* placeholder="password" */ type="text" onChange={e => this.handleChange(e)} />
-                    <button onClick={() => this.submit()}>Submit</button>
-
+                    {/* <label> First Name: </label> */}
+                    <input name="first" placeholder="First Name" onChange={e => this.handleChange(e)} />
+                    {/* <label> Last Name: </label> */}
+                    <input name="last" placeholder="Last Name" onChange={e => this.handleChange(e)} />
+                    {/* <label>Email: </label> */}
+                    <input name="email" placeholder="Email" type="email" onChange={e => this.handleChange(e)} />
+                    {/* <label> Phone Number: </label> */}
+                    <input name="phone" placeholder="Phone Number" type="text" onChange={e => this.handleChange(e)} />
+                    {/* <label> Location: </label> */}
+                    <input name="location" placeholder="Location" type="text" onChange={e => this.handleChange(e)} />
+                    {/* <label> Job Category: </label> */}
+                    <input name="jobcategory" placeholder="Job Category" type="text" onChange={e => this.handleChange(e)} />
+                    <div className="btn">
+                        <button className="submit" onClick={() => this.submit()}>Submit</button>
+                        <div className="links">
+                            <button className="link-left"><Link to="/personal">Personal</Link></button>
+                            <button className="link-right"><Link to="/experience">Experience</Link></button>
+                        </div>
+                    </div>
 
                 </form>
-                <div className="links">
-                    <Link to="/personal">Prev</Link>
-                    <Link to="/experience">Next</Link>
-                </div>
+
             </div>
         )
     }

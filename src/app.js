@@ -16,6 +16,7 @@ import Education from './content/education';
 import Experience from './content/experience';
 import Skills from './content/skills';
 import Languages from './content/languages';
+import Preview from './preview';
 
 class App extends Component {
     constructor(props) {
@@ -85,11 +86,14 @@ class App extends Component {
                 <div className="main">
                     <div className="app-header">
                         <Logo />
+
                         <div className="nav">
+                            <Link className="zero" to="/education">Personal</Link>
                             <Link className="one" to="/education">Education</Link>
                             <Link className="two" to="/experience"> Experience</Link>
                             <Link className="three" to="/skills"> Skills</Link>
                             <Link className="logout" to="/logut">Logout</Link>
+                            {/* <Link className="preview" to="/preview">Preview</Link> */}
                         </div>
                         {/* <div className="prof-pic">
                         <ProfilePic
@@ -103,11 +107,14 @@ class App extends Component {
                     </div> */}
                     </div>
                     <div className="main-container">
+                        <Preview />
                         <Route exact path='/personal' component={Personal} />
                         <Route exact path='/experience' component={Experience} />
                         <Route exact path='/education' component={Education} />
                         <Route exact path='/skills' component={Skills} />
                         <Route exact path='/languages' component={Languages} />
+                        {/* <Route exact path='/preview' component={Preview} /> */}
+
 
                     </div>
 

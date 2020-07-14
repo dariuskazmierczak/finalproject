@@ -45,24 +45,27 @@ class Education extends Component {
                 </div>
                 <form className="education-form">
                     {/*  {this.state.error && <div>An Error occured!</div>} */}
-                    <label> School Name: </label>
-                    <input name="school-name" /* placeholder="first" */ onChange={e => this.handleChange(e)} />
-                    <label> School location: </label>
-                    <input name="school-location" /* placeholder="last" */ onChange={e => this.handleChange(e)} />
-                    <label>Degree: </label>
-                    <input name="degree" /* placeholder="email"  */ type="text" onChange={e => this.handleChange(e)} />
+                    {/* <label> School Name: </label> */}
+                    <input name="school-name" placeholder="School Name" onChange={e => this.handleChange(e)} />
+                    {/* <label> School location: </label> */}
+                    <input name="school-location" placeholder="School location" onChange={e => this.handleChange(e)} />
+                    {/* <label>Degree: </label> */}
+                    <input name="degree" placeholder="Degree" type="text" onChange={e => this.handleChange(e)} />
                     <div className="date">
-                        <label> Start Date: </label>
-                        <input name="start-date" /* placeholder="password" */ type="text" onChange={e => this.handleChange(e)} />
-                        <label> End Date: </label>
-                        <input name="end-date" /* placeholder="password" */ type="text" onChange={e => this.handleChange(e)} />
+                        {/* <label> Start Date: </label> */}
+                        <input name="start-date" placeholder="Start Date" type="text" onChange={e => this.handleChange(e)} />
+                        {/* <label> End Date: </label> */}
+                        <input name="end-date" placeholder="End Date" type="text" onChange={e => this.handleChange(e)} />
                     </div>
-                    <button onClick={() => this.submit()}>Submit</button>
+                    <div className="btn">
+                        <button className="submit" onClick={() => this.submit()}>Submit</button>
+                        <div className="links">
+                            <button className="link-left"><Link to="/personal">Personal</Link></button>
+                            <button className="link-right"><Link to="/experience">Experience</Link></button>
+                        </div>
+                    </div>
                 </form>
-                <div className="links">
-                    <Link to="/personal">Prev</Link>
-                    <Link to="/experience">Next</Link>
-                </div>
+
             </div>
         )
     }
