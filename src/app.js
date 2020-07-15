@@ -1,21 +1,14 @@
 import React, { Component } from 'react';
-import ProfilePic from './profilepic';
-/* import Profile from './profile'; */
-import Uploader from './uploader';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-/* import OtherProfile from './otherprofile';
-import FindPeople from './findpeople';
-import Friends from './friends'; */
-import Content from './content/content';
+
 import Logo from './logo';
-/* import Chat from './chat'; */
 import axios from './axios';
 
 import Personal from './content/personal';
 import Education from './content/education';
-import Experience from './content/experience';
-import Skills from './content/skills';
-import Languages from './content/languages';
+//import Experience from './content/experience';
+//mport Skills from './content/skills';
+//import Languages from './content/languages';
 import Preview from './preview';
 
 class App extends Component {
@@ -26,22 +19,21 @@ class App extends Component {
         },
             this.toggleModal = this.toggleModal.bind(this);
         this.logOut = this.logOut.bind(this);
-        this.methodGetUrl = this.methodGetUrl.bind(this);
-        this.updateBio = this.updateBio.bind(this);
+        //this.methodGetUrl = this.methodGetUrl.bind(this);
+        //this.updateBio = this.updateBio.bind(this);
     }
 
     componentDidMount() {
         console.log('mounted');
+
         //axios to get info about log in user(first, last, pic)...axios /user...and add to component setState...so we can pass info to another component in App
 
-        axios.post('/user', this.state).then(({ data }) => {
+        axios.post('/user').then(({ data }) => {
             console.log('getting data from user', data);
             this.setState({
-                first: data.first,
-                last: data.last,
                 id: data.id,
-                imageUrl: data.imageurl,
-                bio: data.bio
+                email: data.email
+                //tu moze byc modal checkbox
             });
             console.log(' this.state: ', this.state);
         });
@@ -64,7 +56,7 @@ class App extends Component {
         });
     }
 
-    methodGetUrl(url) {
+    /* methodGetUrl(url) {
         this.setState({
             imageUrl: url,
             uploaderIsVisible: !this.state.uploaderIsVisible
@@ -72,13 +64,13 @@ class App extends Component {
         console.log('imageUrl in App:', this.state.imageUrl);
         console.log('this.state::', this.state);
     };
+ */
 
-
-    updateBio(bio) {
+    /* updateBio(bio) {
         this.setState({
             bio: bio
         });
-    }
+    } */
 
     render() {
         return (
@@ -86,45 +78,34 @@ class App extends Component {
                 <div className="main">
                     <div className="app-header">
                         <Logo />
-
                         <div className="nav">
-                            <Link className="zero" to="/education">Personal</Link>
-                            <Link className="one" to="/education">Education</Link>
-                            <Link className="two" to="/experience"> Experience</Link>
-                            <Link className="three" to="/skills"> Skills</Link>
-                            <Link className="logout" to="/logut">Logout</Link>
-                            {/* <Link className="preview" to="/preview">Preview</Link> */}
+                            <Link className="one" to="/personal"> Personal</Link>
+                            <Link className="two" to="/education"> Education</Link>
+                            <button className="logout" onClick={() => this.logOut()}>Logout</button>
                         </div>
-                        {/* <div className="prof-pic">
-                        <ProfilePic
-                            first={this.state.first}
-                            last={this.state.last}
-                            imageUrl={this.state.imageUrl}
-                            toggleModal={this.toggleModal}
-                            logOut={this.logOut}
-                            size='s'
-                        />
-                    </div> */}
+
                     </div>
                     <div className="main-container">
                         <Preview />
                         <Route exact path='/personal' component={Personal} />
-                        <Route exact path='/experience' component={Experience} />
                         <Route exact path='/education' component={Education} />
+                        {/* 
+                        <Route exact path='/experience' component={Experience} />
                         <Route exact path='/skills' component={Skills} />
-                        <Route exact path='/languages' component={Languages} />
-                        {/* <Route exact path='/preview' component={Preview} /> */}
-
-
+                        <Route exact path='/languages' component={Languages} /> */}
                     </div>
-
                 </div>
-
             </BrowserRouter >
         );
     }
 }
 
-
+const mapStateToProps = function (state) {
+    return {
+        id: state.id,
+        email: state.email
+    }
+}
 
 export default App;
+

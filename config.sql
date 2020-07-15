@@ -1,43 +1,45 @@
-/*DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS education;
+DROP TABLE IF EXISTS personal;
+DROP TABLE IF EXISTS reset_codes;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users
 (
     id SERIAL PRIMARY KEY,
-    first VARCHAR (255) NOT NULL,
-    last VARCHAR (255) NOT NULL,
     email VARCHAR (255) NOT NULL UNIQUE,
     password VARCHAR (255) NOT NULL,
-    imageUrl TEXT,
-    bio TEXT,
     ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-DROP TABLE IF EXISTS reset_codes;
 
 CREATE TABLE reset_codes
 (
     id SERIAL PRIMARY KEY,
-    email VARCHAR NOT NULL,
-    code VARCHAR NOT NULL,
+    email VARCHAR (255) NOT NULL,
+    code VARCHAR (255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-DROP TABLE IF EXISTS friendships;*/
-
-CREATE TABLE friendships
+CREATE TABLE personal
 (
     id SERIAL PRIMARY KEY,
-    sender_id INT REFERENCES users(id) NOT NULL,
-    receiver_id INT REFERENCES users(id) NOT NULL,
-    accepted BOOLEAN DEFAULT FALSE NOT NULL
+    first VARCHAR (255) NOT NULL DEFAULT 'unknown',
+    last VARCHAR (255) NOT NULL DEFAULT 'unknown',
+    email VARCHAR (255) NOT NULL DEFAULT 'unknown@unknown',
+    phone VARCHAR (255) NOT NULL DEFAULT 'unknown',
+    location VARCHAR (255) NOT NULL DEFAULT 'unknown',
+    jobcategory VARCHAR (255) NOT NULL DEFAULT 'unknown',
+    user_id INT REFERENCES users(id) NOT NULL,
+    ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-/*DROP TABLE IF EXISTS chat;*/
-
-CREATE TABLE chat
+CREATE TABLE education
 (
     id SERIAL PRIMARY KEY,
-    sender_id INT REFERENCES users(id) NOT NULL,
-    text_message TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    school_name VARCHAR (255) NOT NULL DEFAULT 'unknown',
+    school_location VARCHAR (255) NOT NULL DEFAULT 'unknown',
+    degree VARCHAR (255) NOT NULL DEFAULT 'unknown',
+    start_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    end_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    user_id INT REFERENCES users(id) NOT NULL,
+    ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-/* import axios from './axios'; */
+import axios from '../axios';
 import { Link } from 'react-router-dom';
 
 class Personal extends Component {
@@ -18,10 +18,11 @@ class Personal extends Component {
         }, () => console.log('this.state: ', this.state));
     }
 
-    /*submit() {
+    submit(e) {
+        e.preventDefault();
         console.log('about to submit!!!!');
         //get this.state info and send it to server with axios
-        axios.post('/register', this.state).then(({ data }) => {
+        axios.post('/personal', this.state).then(({ data }) => {
             console.log('data from server: ', data.success);
             if (data.success) {
                 //log user into app
@@ -34,7 +35,6 @@ class Personal extends Component {
             }
         }).catch(err => console.log('error ', err));
     }
- */
 
     render() {
         return (
@@ -53,7 +53,7 @@ class Personal extends Component {
                     {/* <label>Email: </label> */}
                     <input name="email" placeholder="Email" type="email" onChange={e => this.handleChange(e)} />
                     {/* <label> Phone Number: </label> */}
-                    <input name="phone" placeholder="Phone Number" type="text" onChange={e => this.handleChange(e)} />
+                    <input name="phone" placeholder="Phone Number" type="tel" onChange={e => this.handleChange(e)} />
                     {/* <label> Location: </label> */}
                     <input name="location" placeholder="Location" type="text" onChange={e => this.handleChange(e)} />
                     {/* <label> Job Category: </label> */}
@@ -61,8 +61,8 @@ class Personal extends Component {
                     <div className="btn">
                         <button className="submit" onClick={() => this.submit()}>Submit</button>
                         <div className="links">
-                            <button className="link-left"><Link to="/personal">Personal</Link></button>
-                            <button className="link-right"><Link to="/experience">Experience</Link></button>
+                            {/*  <button className="link-left"> */}<Link to="/personal">{/* <Button color="white" className="link-left"><span>Prev</span></Button> */}Prev</Link>{/* </button> */}
+                            <button className="link-right"><Link to="/experience">Next</Link></button>
                         </div>
                     </div>
 

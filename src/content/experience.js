@@ -47,20 +47,20 @@ class Experience extends Component {
 
                     {/*  {this.state.error && <div>An Error occured!</div>} */}
                     {/* <label> Company Name: </label> */}
-                    <input className="inp-1" name="company-name" placeholder="Company Name" onChange={e => this.handleChange(e)} />
+                    <input name="company-name" required autocomplete="off" placeholder="Company Name" onChange={e => this.handleChange(e)} />
                     {/* <label> Job Title: </label> */}
-                    <input className="inp-2" name="job-title" placeholder="Job Title" onChange={e => this.handleChange(e)} />
+                    <input name="job-title" required autocomplete="off" placeholder="Job Title" onChange={e => this.handleChange(e)} />
                     {/* <label> Job Responsibilities: </label> */}
-                    <input className="inp-3" name="job-respons" placeholder="Job Responsibilities" onChange={e => this.handleChange(e)} />
+                    <input name="job-respons" required autocomplete="off" placeholder="Job Responsibilities" onChange={e => this.handleChange(e)} />
                     {/* <label>City: </label> */}
-                    <input className="inp-4" name="city" placeholder="City" type="text" onChange={e => this.handleChange(e)} />
+                    <input name="city" required autocomplete="off" placeholder="City" type="text" onChange={e => this.handleChange(e)} />
                     {/* <label>Country: </label> */}
-                    <input className="inp-5" name="country" placeholder="Country" type="text" onChange={e => this.handleChange(e)} />
+                    <input name="country" required autocomplete="off" placeholder="Country" type="text" onChange={e => this.handleChange(e)} />
                     <div className="date">
                         {/* <label> Start Date: </label> */}
-                        <input name="start-date" placeholder="Start Date" type="text" onChange={e => this.handleChange(e)} />
+                        <input className="start-date" name="start-date" required autocomplete="off" placeholder="Start Date" type="text" onChange={e => this.handleChange(e)} />
                         {/* <label> End Date: </label> */}
-                        <input name="end-date" placeholder="End Date" type="text" onChange={e => this.handleChange(e)} />
+                        <input className="start-date" name="end-date" required autocomplete="off" placeholder="End Date" type="text" onChange={e => this.handleChange(e)} />
                     </div>
                     <div className="btn">
                         <button className="submit" onClick={() => this.submit()}>Submit</button>

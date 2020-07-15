@@ -1,7 +1,6 @@
 export default function reducer(state = {}, action) {
-    // ... (spread operator) make clones of objects & arrays
-    if (action.type == "RECEIVE_FRIENDS_WANNABEES") 
-    {
+
+    if (action.type == "RECEIVE_FRIENDS_WANNABEES") {
         console.log("working");
         state = Object.assign({}, state, {
             friendsWannabees: action.friendsWannabees,
@@ -10,8 +9,7 @@ export default function reducer(state = {}, action) {
         return state;
     }
 
-    if (action.type == "ACCEPT_FRIEND_REQUEST") 
-    {
+    if (action.type == "ACCEPT_FRIEND_REQUEST") {
         console.log("acceptng in reducer");
         const newFriend = state.friendsWannabees.map((user) => {
             if (user.id == action.id) {
@@ -21,8 +19,7 @@ export default function reducer(state = {}, action) {
         return { ...state, newFriend };
     }
 
-    if (action.type == "UNFRIEND") 
-    {
+    if (action.type == "UNFRIEND") {
         console.log("unfriending");
 
         state.friendsWannabees = state.friendsWannabees.filter(
@@ -32,13 +29,12 @@ export default function reducer(state = {}, action) {
         console.log("statend", state);
         return state;
     }
-    
+
     //---------------------------------------------------------------
     //-----------------CHAT
     //---------------------------------------------------------------
 
-    if (action.type == 'GET_LAST_MESSAGES') 
-    {
+    if (action.type == 'GET_LAST_MESSAGES') {
         console.log("REducer GET_LAST_MESSAGES");
         state = {
             ...state,
@@ -48,29 +44,16 @@ export default function reducer(state = {}, action) {
         return state;
     }
 
-    if (action.type == 'ADD_NEW_MESSAGE') 
-    {
+    if (action.type == 'ADD_NEW_MESSAGE') {
         state = {
             ...state,
             //newMessage: action.data
             chatMessages: [...state.chatMessages, ...action.data]
-
-            // chatMessages: state.chatMessages.map(
-            //     msg=>{
-            //         if(!action.data){
-            //             return msg
-            //         } else {
-            //             return{
-            //                 [...msg, ...action.data]
-            //             }
-            //         }
-            //     })
         };
         return state;
     }
 
-    if (action.type == 'ADD_USERS_CONNECTED') 
-    {
+    if (action.type == 'ADD_USERS_CONNECTED') {
         state = {
             ...state,
             users: action.data
