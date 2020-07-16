@@ -8,7 +8,7 @@ import axios from './axios';
 
 import Personal from './personal';
 import Education from './education';
-import Skills from './Skills';
+import Skills from './skills';
 //import Experience from './content/experience';
 //mport Skills from './content/skills';
 //import Languages from './content/languages';
@@ -90,8 +90,12 @@ class App extends Component {
                             <div className="nav-r">
                                 <Link className="three" to="/skills"> SKILLS</Link>
                             </div>
-                            <div className="main-container-r">
-                                {/* <Preview /> */}
+                        </div>
+                        <div className="main-container-r">
+                            {/*   <div className="div-left"></div>
+                            <div className="div-right"></div> */}
+                            <div className="preview-container">
+                                <Preview />
                             </div>
                         </div>
                         <button className="logout" onClick={() => this.logOut()}>logout</button>
