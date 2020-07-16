@@ -94,7 +94,7 @@ class App extends Component {
                                 {/* <Preview /> */}
                             </div>
                         </div>
-                        <button className="logout" onClick={() => this.logOut()}>Logout</button>
+                        <button className="logout" onClick={() => this.logOut()}>logout</button>
 
                     </div>
                 </div>
