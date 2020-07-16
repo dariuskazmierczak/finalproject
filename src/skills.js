@@ -1,15 +1,32 @@
 import React, { Component } from 'react';
 /* import axios from './axios'; */
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setSkills } from "./actions";
 
 class Skills extends Component {
     constructor(props) {
         super(props);
+        this.elemRef = React.createRef();
         this.state = {};
     }
 
+    componentDidMount() {
+        /* let personal = 
+        {
+            first: this.props.first,
+            last: this.props.last,
+            email: this.props.last,
+            phone: this.props.phone,
+            location: this.props.location,
+            jobcategory: this.props.jobcategory
+        } 
+        
+        this.props.dispatch(setPersonal(personal)); */
 
-    /* handleChange(e) {
+    }
+
+    handleChange(e) {
         //console.log('e.target.value:', e.target.value);
         //console.log('e.target.name: ', e.target.name);
         this.setState({
@@ -18,48 +35,44 @@ class Skills extends Component {
         }, () => console.log('this.state: ', this.state));
     }
 
-    submit() {
+    submit(e) {
+        e.preventDefault();
         console.log('about to submit!!!!');
-        //get this.state info and send it to server with axios
-        axios.post('/skills', this.state).then(({ data }) => {
-            console.log('data from server: ', data.success);
-            if (data.success) {
-                //log user into app
-                location.replace('/');
-            } else {
-                //div pop-up 'something went wrong'
-                this.setState({
-                    error: true
-                });
-            }
-        }).catch(err => console.log('error ', err));
+
+        let personal =
+        {
+            skills: this.state.skills,
+
+        }
+
+        console.log('about to submit!!!!', skills);
+
+        this.props.dispatch(setSkills(skills));
     }
- */
 
     render() {
         return (
-            <div className="wrapper">
+            <form className="form">
                 <h1>Skills</h1>
-                <div className="description">
-                    <h3>Please add Your Contact Information and Personal Details</h3>
-                </div>
-                <form className="education-form">
+                {/*  {this.state.error && <div>An Error occured!</div>} */}
 
-                    {/*  {this.state.error && <div>An Error occured!</div>} */}
-                    <label> Skill Name: </label>
-                    <input name="school-name" /* placeholder="first" */ onChange={e => this.handleChange(e)} />
-                    <label> Skill Details/Description: </label>
-                    <input name="school-location" /* placeholder="last" */ onChange={e => this.handleChange(e)} />
+                <input name="skills" placeholder="Skills" onChange={e => this.handleChange(e)} />
 
-                    <button onClick={() => this.submit()}>Submit</button>
-                </form>
-                <div className="links">
-                    <Link to="/personal">Prev</Link>
-                    <Link to="/experience">Next</Link>
-                </div>
-            </div>
+
+                <button onClick={() => this.submit()}>Submit</button>
+
+                <Link to="/experiene">Prev</Link>
+                <Link to="/preview">Next</Link>
+            </form>
         )
     }
 }
 
-export default Skills;
+const mapStateToProps = function (state) {
+    return {
+        skills: state.skills,
+
+    }
+}
+
+export default connect(mapStateToProps)(Skills);
