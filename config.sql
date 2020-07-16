@@ -22,24 +22,24 @@ CREATE TABLE reset_codes
 CREATE TABLE personal
 (
     id SERIAL PRIMARY KEY,
-    first VARCHAR (255) NOT NULL DEFAULT 'unknown',
-    last VARCHAR (255) NOT NULL DEFAULT 'unknown',
-    email VARCHAR (255) NOT NULL DEFAULT 'unknown@unknown',
-    phone VARCHAR (255) NOT NULL DEFAULT 'unknown',
-    location VARCHAR (255) NOT NULL DEFAULT 'unknown',
-    jobcategory VARCHAR (255) NOT NULL DEFAULT 'unknown',
     user_id INT REFERENCES users(id) NOT NULL,
+    first VARCHAR (255) DEFAULT 'unknown',
+    last VARCHAR (255) DEFAULT 'unknown',
+    email VARCHAR (255) DEFAULT 'unknown@unknown',
+    phone VARCHAR (255) DEFAULT 'unknown',
+    location VARCHAR (255) DEFAULT 'unknown',
+    jobcategory VARCHAR (255) DEFAULT 'unknown',
     ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE education
 (
     id SERIAL PRIMARY KEY,
-    school_name VARCHAR (255) NOT NULL DEFAULT 'unknown',
-    school_location VARCHAR (255) NOT NULL DEFAULT 'unknown',
-    degree VARCHAR (255) NOT NULL DEFAULT 'unknown',
-    start_date DATE NOT NULL DEFAULT CURRENT_DATE,
-    end_date DATE NOT NULL DEFAULT CURRENT_DATE,
     user_id INT REFERENCES users(id) NOT NULL,
+    school_name VARCHAR (255) DEFAULT 'unknown',
+    school_location VARCHAR (255) DEFAULT 'unknown',
+    degree VARCHAR (255) DEFAULT 'unknown',
+    start_date DATE DEFAULT CURRENT_DATE,
+    end_date DATE DEFAULT CURRENT_DATE,
     ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

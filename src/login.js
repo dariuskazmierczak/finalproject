@@ -58,16 +58,14 @@ class Login extends Component {
         })
     }
 
-
-
     render() {
         return (
             <div className="register-form">
                 <form className="form">
                     {this.state.error && <div>Oops something went wrong! Are you registered?</div>}
-                    <input name="email" placeholder="email" type="email" onChange={e => this.handleChange(e)} />
-                    <input name="password" placeholder="password" type="password" onChange={e => this.handleChange(e)} />
-                    <button className="log-button" onClick={() => this.submit()}>Login</button>
+                    <input name="email" placeholder="email" type="email" onChange={e => this.handleChange1(e)} />
+                    <input name="password" placeholder="password" type="password" onChange={e => this.handleChange2(e)} />
+                    <button className="log-button" onClick={(e) => this.submit(e)}>Login</button>
                     <div className="error">
                         {/* <Link to="/reset">Reset your password </Link> */}
                         <Link to="/register">Do You have account? Register now for free...</Link>

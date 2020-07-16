@@ -5,9 +5,10 @@ export async function setUser() {
     const { data } = await axios.post('/user');
     return {
         type: "SET_USER",
-        user: data,
+        data
     };
 }
+
 export async function setPersonal(data) {
     console.log("setPersoonal receiving", data);
     return {
@@ -15,17 +16,10 @@ export async function setPersonal(data) {
         data
     };
 }
-export async function setEducation(data) {
-    console.log("setEducation receiving", data);
+
+export async function userLogout() {
+    console.log("redux loging out...");
     return {
-        type: "SET_EDUCATION",
-        data
-    };
-}
-export async function setSkills(data) {
-    console.log("setEducation receiving", data);
-    return {
-        type: "SET_SKILLS",
-        data
+        type: "USER_LOGOUT"
     };
 }

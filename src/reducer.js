@@ -1,26 +1,27 @@
 export default function reducer(state = {}, action) {
 
-    if (action.type == "SET_USER") {
+    if (action.type == "SET_USER") 
+    {
         //console.log("working");
         //console.log("working", action.data.id);
-        state = { ...state, id: action.data.id, email: action.data.email };
+        state = {...state, id: action.data.id, email: action.data.email};
         console.log("state", state);
         return state;
     }
 
-    if (action.type == "SET_PERSONAL") {
+    if (action.type == "SET_PERSONAL") 
+    {
         //console.log("working");
         //console.log("working", action.data);
-        state = { ...state, personal: action.data };
+        state = {...state, personal: action.data};
         console.log("state", state);
         return state;
     }
-    if (action.type == "SET_EDUCATION") {
-        //console.log("working");
-        //console.log("working", action.data);
-        state = { ...state, personal: action.data };
-        console.log("state", state);
-        return state;
+
+    if (action.type == "USER_LOGOUT") 
+    {
+        //state = undefined;
+        //state = {};
     }
 
 

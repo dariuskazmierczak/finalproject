@@ -1,18 +1,13 @@
 const express = require('express');
 const app = express();
 const compression = require('compression');
-
-//const server = require('http').createServer(app);
-//const io = require('socket.io')(server);
-//const server = require("http").Server(app);
-//const io = require("socket.io")(server, { origins: "localhost:8080" });
 const cookieSession = require('cookie-session');
 const csurf = require('csurf');
 const cryptoRandomString = require('crypto-random-string');
 const multer = require('multer');
 const uidSafe = require('uid-safe');
 const path = require('path');
-/* const cors = require('cors'); */
+//const cors = require('cors');
 const ses = require('./ses');
 const { hash, compare } = require('./bc');
 const db = require('./db');
@@ -40,6 +35,9 @@ const uploader = multer({
     }
 });
 
+const memStorage = multer.memoryStorage();
+const buffMulter = multer({ storage: memStorage });
+
 //////////////////////////////////////////////////////////////////
 // MIDDLEWARE
 //////////////////////////////////////////////////////////////////
@@ -51,15 +49,6 @@ app.use(cookieSession({
     SameSite: 'Strict'
 }));
 
-/* const cookieSessionMiddleware = cookieSession({
-    secret: "I'm always hungry",
-    maxAge: 1000 * 60 * 60 * 24 * 14
-});
-app.use(cookieSessionMiddleware); */
-
-/* io.use(function (socket, next) {
-    cookieSessionMiddleware(socket.request, socket.request.res, next);
-}); */
 
 app.use(csurf());
 app.use(function (req, res, next) {
@@ -70,16 +59,6 @@ app.use(function (req, res, next) {
 });
 
 
-
-/* app.use(cors({orgin: true, credentials: true}));
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept'
-    );
-    next();
-}); */
 app.use(express.json());
 
 app.use(express.static('public'));
@@ -110,7 +89,7 @@ app.post('/register', (req, res) => {
     let pass = req.body.password;
     hash(pass)
         .then((hashedPass) => {
-            console.log('po hash ', req.body);
+            //console.log('po hash ', req.body);
             db.addUser(email, hashedPass)
                 .then((results) => {
                     //set cookies = log user
@@ -140,7 +119,7 @@ app.post('/login', (req, res) => {
     let email = req.body.email;
     let pass = req.body.password;
     db.getPassword(email).then(results => {
-        console.log('Login results: ', results);
+        //console.log('Login results: ', results);
         if (results.rows.length == 0) {
             res.json({ success: false });
         }
@@ -261,13 +240,34 @@ app.post('/user', (req, res) => {
 //-----------------PERSONAL
 //---------------------------------------------------------------
 
-app.post('/personal', (req, res) => {
-    console.log('/personal req.body :::', req.body);
-    db.addPersonal(req.body.first, req.body.last, req.body.email, req.body.phone, req.body.location, req.body.jobcategory, req.session.userId).then(results => {
+//-----get
+app.post('/personal_get', (req, res) => {
+    //console.log('/personal get req.body :::', req.body);
+    db.getPersonal(req.session.userId).then(results => {
+        console.log('personal results from getPersonal: ', results.rows);
+        res.json(results.rows[0]);
+    }).catch(err => console.log('error fetching personal data', err));
+});
+
+//-----set
+app.post('/personal_set', (req, res) => {
+    console.log('/personal set req.body :::', req.body);
+    db.addPersonal(req.session.userId, req.body.first, req.body.last, req.body.email, req.body.phone, req.body.location, req.body.jobcategory).then(results => {
         console.log('personal results from addPersonal: ', results.rows[0]);
         res.json(results.rows[0]);
     }).catch(err => console.log('error inserting personal data', err));
 });
+
+//-----update
+app.post('/personal_update', (req, res) => {
+    console.log('/personal update req.body :::', req.body);
+    db.updatePersonal(req.session.userId, req.body.first, req.body.last, req.body.email, req.body.phone, req.body.location, req.body.jobcategory).then(results => {
+        console.log('personal results from updatePersonal: ', results.rows[0]);
+        res.json(results.rows[0]);
+    }).catch(err => console.log('error updating personal data', err));
+});
+
+
 
 //---------------------------------------------------------------
 //-----------------EDUCATION
@@ -275,7 +275,7 @@ app.post('/personal', (req, res) => {
 
 app.post('/education', (req, res) => {
     console.log('/education req.body :::', req.body);
-    db.addEducation(req.body.school_name, req.body.school_location, req.body.degree, req.body.start_date, req.body.end_date, req.session.userId).then(results => {
+    db.addEducation(req.session.userId, req.body.school_name, req.body.school_location, req.body.degree, req.body.start_date, req.body.end_date).then(results => {
         console.log('personal results from addPersonal: ', results.rows[0]);
         res.json(results.rows[0]);
     }).catch(err => console.log('error inserting education data', err));
@@ -285,36 +285,38 @@ app.post('/education', (req, res) => {
 //---------------------------------------------------------------
 //docx templater
 //---------------------------------------------------------------
-app.get('/generate', (req, res) => {
 
-    // The error object contains additional information when logged with JSON.stringify (it contains a properties object containing all suberrors).
-    function replaceErrors(key, value) {
-        if (value instanceof Error) {
-            return Object.getOwnPropertyNames(value).reduce(function (error, key) {
-                error[key] = value[key];
-                return error;
-            }, {});
-        }
-        return value;
+// The error object contains additional information when logged with JSON.stringify (it contains a properties object containing all suberrors).
+function replaceErrors(key, value) {
+    if (value instanceof Error) {
+        return Object.getOwnPropertyNames(value).reduce(function (error, key) {
+            error[key] = value[key];
+            return error;
+        }, {});
     }
+    return value;
+}
 
-    function errorHandler(error) {
-        console.log(JSON.stringify({ error: error }, replaceErrors));
+function errorHandler(error) {
+    console.log(JSON.stringify({ error: error }, replaceErrors));
 
-        if (error.properties && error.properties.errors instanceof Array) {
-            const errorMessages = error.properties.errors.map(function (error) {
-                return error.properties.explanation;
-            }).join("\n");
-            console.log('errorMessages', errorMessages);
-            // errorMessages is a humanly readable message looking like this :
-            // 'The tag beginning with "foobar" is unopened'
-        }
-        throw error;
+    if (error.properties && error.properties.errors instanceof Array) {
+        const errorMessages = error.properties.errors.map(function (error) {
+            return error.properties.explanation;
+        }).join("\n");
+        console.log('errorMessages', errorMessages);
+        // errorMessages is a humanly readable message looking like this :
+        // 'The tag beginning with "foobar" is unopened'
     }
+    throw error;
+}
+
+
+app.post('/generate', (req, res) => {
 
     //Load the docx file as a binary
     var content = fs
-        .readFileSync(path.resolve(__dirname, 'input.docx'), 'binary');
+        .readFileSync(path.resolve(__dirname + '/templates', 'template1.docx'), 'binary');
 
     var zip = new PizZip(content);
     var doc;
@@ -326,12 +328,8 @@ app.get('/generate', (req, res) => {
     }
 
     //set the templateVariables
-    doc.setData({
-        first_name: 'John',
-        last_name: 'Doe',
-        phone: '0652455478',
-        description: 'New Website'
-    });
+    console.log("/generate req:", req.body);
+    doc.setData(req.body);
 
     try {
         // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
@@ -346,7 +344,28 @@ app.get('/generate', (req, res) => {
         .generate({ type: 'nodebuffer' });
 
     // buf is a nodejs buffer, you can either write it to a file or do anything else with it.
-    fs.writeFileSync(path.resolve(__dirname, 'output.docx'), buf);
+    fs.writeFileSync(path.resolve(__dirname + '/download', 'output2.docx'), buf);
+    var file = path.resolve(__dirname + '/download', 'output2.docx');
+
+    //console.log("file:", file);
+    // File options
+    /* const options = {
+       headers: {
+           'x-timestamp': Date.now(),
+           'x-sent': true,
+           'content-disposition': "attachment; filename=" + 'resume.docx', // gets ignored
+           'content-type': "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+       }
+   } */
+
+    //res.download(file, 'resume.docx', options, function (err) {
+    res.download(file, 'resume.docx', function (err) {
+        if (err) {
+            console.log("err:", err);
+        } else {
+            console.log("NO ERROR");
+        }
+    })
 });
 
 //---------------------------------------------------------------
@@ -385,66 +404,8 @@ app.get('*', function (req, res) {
 
 
 //---------------------------------------------------------------
-//run socket
-//---------------------------------------------------------------
-/* io.on('connection', function (socket) {
-    //all socket code goes here:::
-    console.log(`socket id ${socket.id} is now connected`);
-
-    if (!socket.request.session.userId) {
-        console.log(`socket with the id ${socket.id} is now disconnected`);
-        return socket.disconnect(true);
-    };
-
-    //define current user id
-    const userId = socket.request.session.userId;
-
-    //get the last 10 chat messages
-    socket.on('chatMessages', async function () {
-        console.log('chatMessages messsage from chat.js component');
-        try {
-            const newMessage = await db.getLastMessages();
-            console.log('results from getLastMessages:', newMessage);
-            io.sockets.emit('chatMessages', newMessage.rows);
-        }
-        catch (err) {
-            console.log('error in chatMessages', err);
-        }
-
-    });
-
-    socket.on('getNewMessage', async function (newMsg) {
-        console.log('newMsg messsage from chat.js component ', newMsg);
-        console.log('user who sent new message: ', userId);
-        const newMessage = await db.addNewMessage(userId, newMsg);
-        console.log('newMessage async: ', newMessage.rows[0]);
-
-        db.getNewMessage(newMessage.rows[0].sender_id).then(results => {
-            console.log('results from getNewMessage: ', results.rows);
-            io.sockets.emit('addChatMsg', results.rows);
-        }).catch(err => {
-            console.log('error inn getNewMessage: ', err);
-        });
-    });
-
-
-    //1. insert msg in chat table (Returning something?)
-    //2.do query to get first, last, img (Join)
-    //
-    //emit the msg so that everyone can see it:
-    //io.socket.emit('addChatMsg', ....)
-
-}); */
-
-
-
-
-//---------------------------------------------------------------
 //run server
 //---------------------------------------------------------------
-/* server.listen(8080, function () {
-    console.log("I'm listening.");
-}); */
 
 app.listen(8080, function () {
     console.log("I'm listening.");

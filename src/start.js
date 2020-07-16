@@ -9,11 +9,12 @@ import { Provider } from "react-redux";
 import reduxPromise from "redux-promise";
 import { composeWithDevTools } from "redux-devtools-extension";
 import reducer from "./reducer";
-//import { init } from "./socket";
 
+
+const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
 const store = createStore(
     reducer,
-    composeWithDevTools(applyMiddleware(reduxPromise))
+    composeEnhancers(applyMiddleware(reduxPromise))
 );
 
 let elem;

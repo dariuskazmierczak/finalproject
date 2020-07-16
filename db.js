@@ -29,8 +29,9 @@ module.exports.addCode = (email, code) => {
         INSERT INTO reset_codes (email, code)
         VALUES($1, $2)
         RETURNING *`,
-        [email, code])
-}
+        [email, code]
+    );
+};
 
 module.exports.getCode = (email) => {
     return db.query(`
@@ -40,8 +41,9 @@ module.exports.getCode = (email) => {
         AND CURRENT_TIMESTAMP - created_at < INTERVAL '10 minutes'
         ORDER BY created_at DESC
         LIMIT 1`,
-        [email])
-}
+        [email]
+    );
+};
 
 module.exports.updatePassword = (email, password) => {
     return db.query(`
@@ -51,32 +53,53 @@ module.exports.updatePassword = (email, password) => {
         RETURNING *`,
         [email, password]
     );
-}
+};
 
-//-----------------GET LOGIN DATA--------------------//
+//-----------------GET DATA--------------------//
 module.exports.getUserInfo = (userId) => {
     return db.query(`
         SELECT *
         FROM users
-        WHERE id = '${userId}'
-    `)
-}
-
-//-----------------FORMS--------------------//
-module.exports.addPersonal = (first, last, email, phone, location, jobcategory, user_id) => {
-    return db.query(`
-        INSERT INTO personal (first, last, email, phone, location, jobcategory, user_id)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
-        RETURNING *`,
-        [first, last, email, phone, location, jobcategory, user_id]
+        WHERE id = $1`,
+        [userId]
     );
 };
 
-module.exports.addEducation = (school_name, school_location, degree, start_date, end_date, user_id) => {
+module.exports.getPersonal = (userId) => {
     return db.query(`
-        INSERT INTO personal (school_name, school_location, degree, start_date, end_date, user_id)
+        SELECT * FROM personal
+        WHERE user_id = $1`,
+        [userId]
+    );
+};
+
+
+//-------------SET DATA--------------------//
+module.exports.addPersonal = (user_id, first, last, email, phone, location, jobcategory) => {
+    return db.query(`
+        INSERT INTO personal (user_id, first, last, email, phone, location, jobcategory)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        RETURNING *`,
+        [user_id, first, last, email, phone, location, jobcategory]
+    );
+};
+
+module.exports.addEducation = (user_id, school_name, school_location, degree, start_date, end_date) => {
+    return db.query(`
+        INSERT INTO personal (user_id, school_name, school_location, degree, start_date, end_date)
         VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *`,
-        [school_name, school_location, degree, start_date, end_date, user_id]
+        [user_id, school_name, school_location, degree, start_date, end_date]
+    );
+};
+
+//-------------UPDATE DATA--------------------//
+module.exports.updatePersonal = (user_id, first, last, email, phone, location, jobcategory) => {
+    return db.query(`
+        UPDATE personal
+        SET first = $2, last = $3, email = $4, phone = $5, location = $6, jobcategory = $7
+        WHERE user_id = $1
+        RETURNING *`,
+        [user_id, first, last, email, phone, location, jobcategory]
     );
 };

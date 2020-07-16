@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setUser } from "./actions";
+import { setUser, setPersonal, userLogout } from "./actions";
 
 import Logo from './logo';
 import axios from './axios';
 
 import Personal from './personal';
 import Education from './education';
-import Skills from './skills';
 //import Experience from './content/experience';
-//mport Skills from './content/skills';
+import Skills from './skills';
 //import Languages from './content/languages';
 import Preview from './preview';
+
+import download from 'js-file-download';
+
+
 
 class App extends Component {
     constructor(props) {
@@ -26,12 +29,32 @@ class App extends Component {
 
     }
 
-    componentDidMount() {
-        console.log('mounted');
+    async componentDidMount()
+    //method for initialize data in redux from database 
+    {
+        console.log('App mounted this.props.id:', this.props.id);
+
 
         //redux action for setting states of logged user id and email
-        this.props.dispatch(setUser());
+        await this.props.dispatch(setUser());
 
+        //check for old user data stored on database
+        let { data } = await axios.post('/personal_get');
+        console.log('App didmount personal_get from server: ', data);
+
+        if (data)
+        //fetch old data and set in store
+        {
+            await this.props.dispatch(setPersonal(data));
+        }
+        else
+        //create new record and empty structure in store
+        {
+            let { data } = await axios.post('/personal_set');
+            await this.props.dispatch(setPersonal(data));
+        }
+
+        console.log('App didmount redux store: ', this.props);
 
     }
 
@@ -42,25 +65,43 @@ class App extends Component {
         });
     } */
 
-    logOut(e) {
+    async logOut(e) {
+        //logout method
         e.preventDefault();
-        console.log('logout is running');
-        this.setState({
-            id: null
-        });
-        axios.post('/logout').then(() => {
-            location.replace('/welcome#/login');
-        });
+
+
+        await this.props.dispatch(userLogout());
+
+        var logoutdone = await axios.post('/logout');
+
+        if (logoutdone) { location.replace('/welcome#/login'); }
+
+        console.log('bye...');
     }
 
     async createCV(e) {
+        //create resume method
         e.preventDefault();
-        var { data } = await axios.post('/personal', this.props.personal);
-        console.log('data from server: ', data);
+
+        //updating data to create resume
+        let data = this.props.personal;
+        //await axios.post('/personal_update', this.props.personal);
+        //next forms data goes here
+
+        //adding info about template
         data = { ...data, template: "template1.docx" };
-        console.log('data from server with template: ', data);
-        await axios.post('/generate', data);
-        //console.log('data from server: ', data);
+        console.log('FINAL DATA FOR CREATING RESUME: ', data);
+
+        //create and download resume
+        const resp = await axios({
+            url: '/generate',
+            method: 'POST',
+            responseType: 'blob',
+            data
+        })
+        //console.log('data from server with file: ', resp.data);
+        download(resp.data, 'cv.docx');
+
     }
 
     render() {
@@ -98,7 +139,8 @@ class App extends Component {
                                 <Preview />
                             </div>
                         </div>
-                        <button className="logout" onClick={() => this.logOut()}>logout</button>
+                        <button className="logout" onClick={(e) => this.logOut(e)}>logout</button>
+                        <button className="create" onClick={(e) => this.createCV(e)}>CREATE</button>
 
                     </div>
                 </div>
@@ -116,4 +158,3 @@ const mapStateToProps = function (state) {
 }
 
 export default connect(mapStateToProps)(App);
-

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import axios from '../axios'; 
+import axios from './axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setPersonal } from "./actions";
@@ -9,37 +9,79 @@ class Personal extends Component {
         super(props);
         this.elemRef = React.createRef();
         this.state = {};
+        this.submit = this.submit.bind(this);
     }
 
     componentDidMount() {
-        /* let personal = 
-        {
-            first: this.props.first,
-            last: this.props.last,
-            email: this.props.last,
-            phone: this.props.phone,
-            location: this.props.location,
-            jobcategory: this.props.jobcategory
-        } 
-        
-        this.props.dispatch(setPersonal(personal)); */
+        console.log("1. Component personal didmount this.props.personal:", this.props.personal);
 
+        var elems = document.querySelectorAll('input');
+        //console.log("elems:", elems);
+
+        for (var key in this.props.personal) {
+            //console.log("key:", key);
+            //console.log("personal key:", this.props.personal[key]);
+            for (var i = 0; i < elems.length; i++) {
+                //console.log("input name:", elems[i].name);
+                if (elems[i].name == key) {
+                    elems[i].value = this.props.personal[key];
+                    //this.setState({[elems[i].name]: this.props.personal[key]});
+                }
+            }
+        }
+
+        console.log("2. Component personal didmount this.props.personal:", this.props.personal);
+        console.log("2. Component personal didmount this.state:", this.state);
+    }
+
+    componentDidUpdate(prevProps) {
+        console.log("Component personal UPDATE personal props obj:", this.props.personal);
+        var elems = document.querySelectorAll('input');
+        //console.log("elems:", elems);
+
+        for (var key in this.props.personal) {
+            //console.log("key:", key);
+            //console.log("personal key:", this.props.personal[key]);
+            for (var i = 0; i < elems.length; i++) {
+                //console.log("input name:", elems[i].name);
+                if (elems[i].name == key) {
+                    elems[i].value = this.props.personal[key];
+                }
+            }
+        }
+
+        console.log("2. Component personal update this.props.personal:", this.props.personal);
+        console.log("2. Component personal update this.state:", this.state);
     }
 
     handleChange(e) {
-        //console.log('e.target.value:', e.target.value);
-        //console.log('e.target.name: ', e.target.name);
-        this.setState({
-            [e.target.name]: e.target.value
-            //is asynchronous, thats why the callback function bellow
-        }, () => console.log('this.state: ', this.state));
+        //updating states method
+        //this.setState({[e.target.name]: e.target.value});
     }
 
-    submit(e) {
+    async submit(e) {
+        //submit states to redux store method
         e.preventDefault();
-        console.log('about to submit!!!!');
 
-        let personal =
+        console.log("::::::::::::::SUBMIT:::::::");
+
+        var personalUpdate = {};
+
+        var elems = document.querySelectorAll('input');
+        for (var key in this.props.personal) {
+            //console.log("dla props.personal:", key);
+            for (var i = 0; i < elems.length; i++) {
+                if (elems[i].name == key) {
+                    //console.log("SETING STATE", elems[i].name);
+                    //console.log("VALUE:", elems[i].value);
+                    personalUpdate[elems[i].name] = elems[i].value;
+                    //this.setState({[elems[i].name]: elems[i].value});
+                    //console.log("---------------------------------");
+                }
+            }
+        }
+
+        /* let personalUpdate = 
         {
             first: this.state.first,
             last: this.state.last,
@@ -47,11 +89,11 @@ class Personal extends Component {
             phone: this.state.phone,
             location: this.state.location,
             jobcategory: this.state.jobcategory
-        }
+        }  */
 
-        console.log('about to submit!!!!', personal);
-
-        this.props.dispatch(setPersonal(personal));
+        console.log('about to submit!!!!', personalUpdate);
+        await this.props.dispatch(setPersonal(personalUpdate));
+        await axios.post('/personal_update', this.props.personal);
     }
 
     render() {
@@ -77,7 +119,7 @@ class Personal extends Component {
                     {/* <label> Job Category: </label> */}
                     <input name="jobcategory" placeholder="Job Category" type="text" onChange={e => this.handleChange(e)} />
                     <div className="btn">
-                        <button className="submit" onClick={() => this.submit()}>Submit</button>
+                        <button className="submit" onClick={(e) => this.submit(e)}>Submit</button>
 
                     </div>
 
@@ -95,7 +137,7 @@ const mapStateToProps = function (state) {
         email: state.last,
         phone: state.phone,
         location: state.location,
-        jobcategory: state.jobcategory
+        personal: state.personal
     }
 }
 
