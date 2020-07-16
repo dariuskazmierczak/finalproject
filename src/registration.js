@@ -47,12 +47,12 @@ class Registration extends Component {
 
     render() {
         return (
-            <div>
+            <div className="register-form">
                 <form className="form">
                     {this.state.error && <div>Oops something went wrong!</div>}
                     <input name="email" placeholder="email" type="email" onChange={e => this.handleChange(e)} />
                     <input name="password" placeholder="password" type="password" onChange={e => this.handleChange(e)} />
-                    <button disabled={!this.state.formReady} onClick={e => this.submit(e)}>Register</button>
+                    <button className="login-form" disabled={!this.state.formReady} onClick={e => this.submit(e)}>Register</button>
                     <Link to="/login">Login</Link>
                 </form>
             </div>

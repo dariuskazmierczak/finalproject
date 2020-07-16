@@ -43,6 +43,76 @@ body {
   
 }
 
+/*---------------------------------------------*/
+/*------- Welcome/Registration/login ----------*/
+/*---------------------------------------------*/
+
+.welcome-container {
+  display: grid;
+ grid-template-columns: 1fr;
+ grid-template-rows: 1fr 1fr 1fr;
+}
+
+.welcome-container .welcome-header{
+  grid-area: 1/1/2/2;
+display: grid;
+grid-template-rows: 1fr;
+height: 200px;
+width: 100vw;
+} 
+
+.welcome-comp {
+  grid-area: 2/1/3/2;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+ left: 50%;
+}
+
+.register-form {
+grid-area: 2/2/3/3;
+text-align: center;
+}
+
+.login-form{
+
+  width: 150px;
+        height: 50px;
+        align-self: center;
+        color: #000070;
+        background: #f37121;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin: 20px 0;
+        padding: 10px 30px;
+        border: 2px solid #FFF;
+        border-radius: 5px;
+}
+
+.welcome-header .welcome-img {
+  grid-area: 1/1/2/2;
+  margin: 15% 0 0 0;
+}
+
+.error{
+  grid-area: 2/1/3/2;
+  margin: 10% 0 0 0;
+}
+
+.log-button {
+  width: 150px;
+        height: 50px;
+        align-self: center;
+        color: #000070;
+        background: #f37121;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        margin: 20px 0;
+        padding: 10px 30px;
+        border: 2px solid #FFF;
+        border-radius: 5px;
+}
+
+
 /*-------------------------------------*/
 /*////----------- MAIN -----------/////*/
 /*-------------------------------------*/ 

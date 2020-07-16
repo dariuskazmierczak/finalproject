@@ -4,14 +4,14 @@ import { HashRouter, Route } from 'react-router-dom';
 
 import Registration from './registration';
 import Login from './login';
-import Reset from './reset';
+/* import Reset from './reset'; */
 
 export default function Welcome() {
     return (
         <div className="welcome-container">
             <div className="welcome-header">
                 <div className="welcome-img">
-                    {/* <img src="../logo2.png" /> */}
+                    <img src="../logo3.png" />
                 </div>
             </div>
             <HashRouter>
@@ -19,7 +19,7 @@ export default function Welcome() {
                     <Route exact path='/' component={Registration} />
                     <Route exact path='/register' component={Registration} />
                     <Route exact path='/login' component={Login} />
-                    <Route exact path='/reset' component={Reset} />
+                    {/* <Route exact path='/reset' component={Reset} /> */}
 
                 </div>
             </HashRouter>
