@@ -43,7 +43,7 @@ class Education extends Component {
                 <div className="description">
                     <h3>Please add Your Contact Information and Personal Details</h3>
                 </div>
-                <form className="education-form">
+                <form className="form">
                     {/*  {this.state.error && <div>An Error occured!</div>} */}
                     <div className="inputbox">
                         {/* <label> School Name:</label> */}

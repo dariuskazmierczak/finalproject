@@ -1,13 +1,30 @@
 import React, { Component } from 'react';
-import axios from '../axios';
+//import axios from '../axios'; 
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setPersonal } from "./actions";
 
 class Personal extends Component {
     constructor(props) {
         super(props);
+        this.elemRef = React.createRef();
         this.state = {};
     }
 
+    componentDidMount() {
+        /* let personal = 
+        {
+            first: this.props.first,
+            last: this.props.last,
+            email: this.props.last,
+            phone: this.props.phone,
+            location: this.props.location,
+            jobcategory: this.props.jobcategory
+        } 
+        
+        this.props.dispatch(setPersonal(personal)); */
+
+    }
 
     handleChange(e) {
         //console.log('e.target.value:', e.target.value);
@@ -21,19 +38,20 @@ class Personal extends Component {
     submit(e) {
         e.preventDefault();
         console.log('about to submit!!!!');
-        //get this.state info and send it to server with axios
-        axios.post('/personal', this.state).then(({ data }) => {
-            console.log('data from server: ', data.success);
-            if (data.success) {
-                //log user into app
-                location.replace('/');
-            } else {
-                //div pop-up 'something went wrong'
-                this.setState({
-                    error: true
-                });
-            }
-        }).catch(err => console.log('error ', err));
+
+        let personal =
+        {
+            first: this.state.first,
+            last: this.state.last,
+            email: this.state.last,
+            phone: this.state.phone,
+            location: this.state.location,
+            jobcategory: this.state.jobcategory
+        }
+
+        console.log('about to submit!!!!', personal);
+
+        this.props.dispatch(setPersonal(personal));
     }
 
     render() {
@@ -73,4 +91,15 @@ class Personal extends Component {
     }
 }
 
-export default Personal;
+const mapStateToProps = function (state) {
+    return {
+        first: state.first,
+        last: state.last,
+        email: state.last,
+        phone: state.phone,
+        location: state.location,
+        jobcategory: state.jobcategory
+    }
+}
+
+export default connect(mapStateToProps)(Personal);

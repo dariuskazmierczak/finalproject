@@ -12,6 +12,8 @@ class Preview extends Component {
         return (
             <div className="preview">
                 Preview
+                <div><img src="../resume1.png" /></div>
+
             </div>
         )
     }

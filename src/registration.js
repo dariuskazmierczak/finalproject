@@ -5,27 +5,38 @@ import { Link } from 'react-router-dom';
 class Registration extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {}
+        this.submit = this.submit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(e) {
+    async handleChange(e) {
+        await this.setState(
+            {
+                [e.target.name]: e.target.value
+            });
+        if (
+            this.state.email &&
+            this.state.password
+        ) {
+            this.setState({ formReady: true });
+        }
+        else {
+            this.setState({ formReady: false });
+        }
 
-        this.setState({
-            [e.target.name]: e.target.value
-
-        }, () => console.log('this.state: ', this.state));
     }
 
-    submit() {
+    submit(e) {
+        e.preventDefault();
         console.log('about to submit!!!!');
 
         axios.post('/register', this.state).then(({ data }) => {
             console.log('data from server: ', data.success);
             if (data.success) {
-
                 location.replace('/');
-            } else {
-
+            }
+            else {
                 this.setState({
                     error: true
                 });
@@ -36,21 +47,17 @@ class Registration extends Component {
 
     render() {
         return (
-            <form className="registration-form">
-                <h1>Please fill out the registration form</h1>
-                {this.state.error && <div>Oops something went wrong!</div>}
-                <input name="first" placeholder="first" onChange={e => this.handleChange(e)} />
-                <input name="last" placeholder="last" onChange={e => this.handleChange(e)} />
-                <input name="email" placeholder="email" type="email" onChange={e => this.handleChange(e)} />
-                <input name="password" placeholder="password" type="password" onChange={e => this.handleChange(e)} />
-                <button onClick={() => this.submit()}>Register</button>
-                <Link to="/login">Login</Link>
-            </form>
+            <div>
+                <form className="form">
+                    {this.state.error && <div>Oops something went wrong!</div>}
+                    <input name="email" placeholder="email" type="email" onChange={e => this.handleChange(e)} />
+                    <input name="password" placeholder="password" type="password" onChange={e => this.handleChange(e)} />
+                    <button disabled={!this.state.formReady} onClick={e => this.submit(e)}>Register</button>
+                    <Link to="/login">Login</Link>
+                </form>
+            </div>
 
-            //short for Fragments---doesn't add another div
-            // <>
-            //     <h1>I am Registration!!!</h1>
-            // </>
+
         );
     }
 }

@@ -9,7 +9,11 @@ import Reset from './reset';
 export default function Welcome() {
     return (
         <div className="welcome-container">
-            <h1>Welcome to PlaYClue</h1>
+            <div className="welcome-header">
+                <div className="welcome-img">
+                    {/* <img src="../logo2.png" /> */}
+                </div>
+            </div>
             <HashRouter>
                 <div className="welcome-comp">
                     <Route exact path='/' component={Registration} />

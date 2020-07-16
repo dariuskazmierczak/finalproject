@@ -2,7 +2,7 @@ const spicedPg = require('spiced-pg');
 
 let db = spicedPg(
     process.env.DATABASE_URL ||
-    'postgres:Lukasz:postgres@localhost:5432/cv'
+    'postgres:dariuszkazmierczak:postgres@localhost:5432/resume'
 );
 
 //-----------------WELCOME--------------------//
