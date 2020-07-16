@@ -36,23 +36,23 @@ class Education extends Component {
         }, () => console.log('this.state: ', this.state));
     }
 
-    submit(e) {
-        e.preventDefault();
-        console.log('about to submit!!!!');
-
-        let education =
-        {
-            school_name: this.state.school_name,
-            school_location: this.state.school_location,
-            degree: this.state.degree,
-            start_date: this.state.start_date,
-            end_date: this.state.end_date,
-        }
-
-        console.log('about to submit!!!!', education);
-
-        this.props.dispatch(setEducation(education));
-    }
+    /*  submit(e) {
+         e.preventDefault();
+         console.log('about to submit!!!!');
+ 
+         let education =
+         {
+             school_name: this.state.school_name,
+             school_location: this.state.school_location,
+             degree: this.state.degree,
+             start_date: this.state.start_date,
+             end_date: this.state.end_date,
+         }
+ 
+         console.log('about to submit!!!!', education);
+ 
+         this.props.dispatch(setEducation(education));
+     } */
 
 
     render() {
@@ -84,10 +84,7 @@ class Education extends Component {
                     </div>
                     <div className="btn">
                         <button className="submit" onClick={() => this.submit()}>Submit</button>
-                        <div className="links">
-                            {/*  <button className="link-left"> */}<Link className="link-left" to="/personal">Personal</Link>{/* </button> */}
-                            <button className="link-right"><Link to="/experience">Experience</Link></button>
-                        </div>
+
                     </div>
                 </form>
 
@@ -96,7 +93,7 @@ class Education extends Component {
     }
 }
 
-const mapStateToProps = function (state) {
+/* const mapStateToProps = function (state) {
     return {
         school_name: this.state.school_name,
         school_location: this.state.school_location,
@@ -106,4 +103,6 @@ const mapStateToProps = function (state) {
     }
 }
 
-export default connect(mapStateToProps)(Education);
+export default connect(mapStateToProps)(Education); */
+
+export default Education;

@@ -6,7 +6,7 @@ export default function Logo() {
 
         <div className="logo">
             {/* <p>UResume</p> */}
-            <img src="../logo2.png" />
+            <img src="../logo3.png" />
         </div>
 
 

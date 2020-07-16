@@ -35,20 +35,20 @@ class Skills extends Component {
         }, () => console.log('this.state: ', this.state));
     }
 
-    submit(e) {
-        e.preventDefault();
-        console.log('about to submit!!!!');
-
-        let personal =
-        {
-            skills: this.state.skills,
-
-        }
-
-        console.log('about to submit!!!!', skills);
-
-        this.props.dispatch(setSkills(skills));
-    }
+    /*  submit(e) {
+     e.preventDefault();
+     console.log('about to submit!!!!');
+ 
+     let personal =
+     {
+         skills: this.state.skills,
+ 
+     }
+ 
+     console.log('about to submit!!!!', skills);
+ 
+     this.props.dispatch(setSkills(skills));
+    }  */
 
     render() {
         return (
@@ -63,10 +63,7 @@ class Skills extends Component {
                     <input name="skills" placeholder="Skills" onChange={e => this.handleChange(e)} />
                     <div className="btn">
                         <button className="submit" onClick={() => this.submit()}>Submit</button>
-                        <div className="links">
-                            {/*  <button className="link-left"> */}<Link to="/personal">{/* <Button color="white" className="link-left"><span>Prev</span></Button> */}Prev</Link>{/* </button> */}
-                            <button className="link-right"><Link to="/experience">Next</Link></button>
-                        </div>
+
                     </div>
                 </form>
             </div>
@@ -74,11 +71,12 @@ class Skills extends Component {
     }
 }
 
-const mapStateToProps = function (state) {
+export default Skills;
+/* const mapStateToProps = function (state) {
     return {
         skills: state.skills,
 
     }
 }
 
-export default connect(mapStateToProps)(Skills);
+export default connect(mapStateToProps)(Skills); */

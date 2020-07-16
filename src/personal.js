@@ -78,10 +78,7 @@ class Personal extends Component {
                     <input name="jobcategory" placeholder="Job Category" type="text" onChange={e => this.handleChange(e)} />
                     <div className="btn">
                         <button className="submit" onClick={() => this.submit()}>Submit</button>
-                        <div className="links">
-                            {/*  <button className="link-left"> */}<Link to="/personal">{/* <Button color="white" className="link-left"><span>Prev</span></Button> */}Prev</Link>{/* </button> */}
-                            <button className="link-right"><Link to="/experience">Next</Link></button>
-                        </div>
+
                     </div>
 
                 </form>

@@ -8,6 +8,7 @@ import axios from './axios';
 
 import Personal from './personal';
 import Education from './education';
+import Skills from './Skills';
 //import Experience from './content/experience';
 //mport Skills from './content/skills';
 //import Languages from './content/languages';
@@ -72,13 +73,14 @@ class App extends Component {
                             <div className="nav-l">
                                 <Link className="one" to="/personal"> PERSONAL</Link>
                                 <Link className="two" to="/education"> EDUCATION</Link>
+
                             </div>
                         </div>
                         <div className="main-container-l">
                             <Route exact path='/personal' component={Personal} />
                             <Route exact path='/education' component={Education} />
-                            {/* 
-                        <Route exact path='/experience' component={Experience} />
+                            <Route exact path='/skills' component={Skills} />
+                            {/*   <Route exact path='/experience' component={Experience} />
                         <Route exact path='/skills' component={Skills} />
                         <Route exact path='/languages' component={Languages} /> */}
                         </div>
@@ -86,12 +88,14 @@ class App extends Component {
                     <div className="main-r">
                         <div className="app-header-r">
                             <div className="nav-r">
-                                <button className="logout" onClick={() => this.logOut()}>Logout</button>
+                                <Link className="three" to="/skills"> SKILLS</Link>
+                            </div>
+                            <div className="main-container-r">
+                                {/* <Preview /> */}
                             </div>
                         </div>
-                        <div className="main-container-r">
-                            {/* <Preview /> */}
-                        </div>
+                        <button className="logout" onClick={() => this.logOut()}>Logout</button>
+
                     </div>
                 </div>
             </BrowserRouter >
