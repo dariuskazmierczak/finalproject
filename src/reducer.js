@@ -15,6 +15,13 @@ export default function reducer(state = {}, action) {
         console.log("state", state);
         return state;
     }
+    if (action.type == "SET_EDUCATION") {
+        //console.log("working");
+        //console.log("working", action.data);
+        state = { ...state, personal: action.data };
+        console.log("state", state);
+        return state;
+    }
 
 
     return state;

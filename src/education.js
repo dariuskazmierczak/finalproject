@@ -45,7 +45,7 @@ class Education extends Component {
             school_name: this.state.school_name,
             school_location: this.state.school_location,
             degree: this.state.degree,
-            start_date: this.start_date,
+            start_date: this.state.start_date,
             end_date: this.state.end_date,
         }
 
@@ -60,7 +60,7 @@ class Education extends Component {
             <div className="wrapper">
                 <h1>Education</h1>
                 <div className="description">
-                    <h3>Please add Your Contact Information and Personal Details</h3>
+                    <h3>Please write the essential information about your education</h3>
                 </div>
                 <form className="form">
                     {/*  {this.state.error && <div>An Error occured!</div>} */}
@@ -101,7 +101,7 @@ const mapStateToProps = function (state) {
         school_name: this.state.school_name,
         school_location: this.state.school_location,
         degree: this.state.degree,
-        start_date: this.start_date,
+        start_date: this.state.start_date,
         end_date: this.state.end_date,
     }
 }

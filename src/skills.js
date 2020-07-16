@@ -52,18 +52,24 @@ class Skills extends Component {
 
     render() {
         return (
-            <form className="form">
+            <div className="wrapper">
                 <h1>Skills</h1>
-                {/*  {this.state.error && <div>An Error occured!</div>} */}
+                <div className="description">
+                    <h3>Please add Your stand-out Skills</h3>
+                </div>
+                <form className="form">
+                    {/*  {this.state.error && <div>An Error occured!</div>} */}
 
-                <input name="skills" placeholder="Skills" onChange={e => this.handleChange(e)} />
-
-
-                <button onClick={() => this.submit()}>Submit</button>
-
-                <Link to="/experiene">Prev</Link>
-                <Link to="/preview">Next</Link>
-            </form>
+                    <input name="skills" placeholder="Skills" onChange={e => this.handleChange(e)} />
+                    <div className="btn">
+                        <button className="submit" onClick={() => this.submit()}>Submit</button>
+                        <div className="links">
+                            {/*  <button className="link-left"> */}<Link to="/personal">{/* <Button color="white" className="link-left"><span>Prev</span></Button> */}Prev</Link>{/* </button> */}
+                            <button className="link-right"><Link to="/experience">Next</Link></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         )
     }
 }

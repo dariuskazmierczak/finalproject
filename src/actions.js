@@ -22,3 +22,10 @@ export async function setEducation(data) {
         data
     };
 }
+export async function setSkills(data) {
+    console.log("setEducation receiving", data);
+    return {
+        type: "SET_SKILLS",
+        data
+    };
+}
